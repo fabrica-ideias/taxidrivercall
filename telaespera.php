@@ -2,6 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<title>Tela de Espera</title>
 <!-- Compiled and minified CSS -->
   	<link rel="stylesheet" href="materialize/css/materialize.min.css">
@@ -13,7 +14,6 @@
   	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
   	<script src="materialize/js/materialize.min.js"></script>
   	<script src="js/function.js"></script>
-  	<script src="js/infraero.js"></script>
 </head>
 <body onload="init();">
 	<div class="container">
@@ -47,12 +47,10 @@
 				<li><i class="small material-icons problema">crop_free</i> Parado</li>
 			</ul>
 		</div>
-		<div class="row">
-  			<?php require_once("consultavoos.html");?>
-		</div>
 		<audio  id="audio">
 	   		<source src="assets/sons/alert.mp3" type="audio/mp3" />
 		</audio>
 	</div>
+	<div class="row">	</div>
 </body>
 </html>

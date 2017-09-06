@@ -1,8 +1,10 @@
-*{margin:0 !important;padding:0 !important;}
+*{
+	padding: 0px;
+	margin:0px;
+}
 #tabelavoos>tbody>tr{
 	background: #5a5a5a;
 	color: #d9ca30;
-	padding:5px;
 } 
 #tabelavoos>thead>tr{
 	background-color:#373737;
@@ -21,4 +23,14 @@
 	bottom: 0px;
 	max-height: 30%;
 	overflow-y: scroll;
+}
+#consultavoos::-webkit-scrollbar-track {
+    background-color: #F4F4F4;
+}
+#consultavoos::-webkit-scrollbar {
+    width: 6px;
+    background: #F4F4F4;
+}
+#consultavoos::-webkit-scrollbar-thumb {
+    background: #dad7d7;
 }
