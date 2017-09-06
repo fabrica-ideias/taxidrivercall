@@ -1,0 +1,24 @@
+*{margin:0 !important;padding:0 !important;}
+#tabelavoos>tbody>tr{
+	background: #5a5a5a;
+	color: #d9ca30;
+	padding:5px;
+} 
+#tabelavoos>thead>tr{
+	background-color:#373737;
+	color:#d9d426;
+}	
+#tabelavoos.striped>tbody>tr:nth-child(odd) {
+	background-color: #373737;
+	color:#d9d426;
+}
+#tabelavoos{
+	height:100%;
+}
+#consultavoos{
+	position: fixed;
+	width: 100%;
+	bottom: 0px;
+	max-height: 30%;
+	overflow-y: scroll;
+}
