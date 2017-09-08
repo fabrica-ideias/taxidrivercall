@@ -14,6 +14,7 @@
   	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
   	<script src="materialize/js/materialize.min.js"></script>
   	<script src="js/function.js"></script>
+  	<script src="js/infraero.js"></script>
 </head>
 <body onload="init();">
 	<div class="container">
@@ -51,6 +52,13 @@
 	   		<source src="assets/sons/alert.mp3" type="audio/mp3" />
 		</audio>
 	</div>
-	<div class="row">	</div>
+	<div class="row">
+		<div class="col l5"></div>
+		<div class="col s12 l2"><a  class="col s12 l2 waves-effect waves-light btn modal-trigger btnbottom" href="#infraero">Consultar Voos</a></div>
+		<div class="col l5"></div>
+	</div>
+	<div id="infraero" class="modal bottom-sheet">
+		<?php require_once("infraero.php");?>
+	</div>
 </body>
 </html>

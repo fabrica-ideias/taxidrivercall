@@ -27,7 +27,7 @@ body{
 }
 .subcontainer h1{
 	text-align: center;
-	font-size: 10em;
+	font-size: 14em;
 }
 .titulochamada{
 	border: 1px solid;
@@ -103,7 +103,19 @@ td{
     cursor: -moz-grabbing;
     cursor: -webkit-grabbing;
 }
-@media screen and (max-width: 650px){
+
+.btnbottom{
+	position: absolute;
+    bottom: 0;
+    background-color: #4b4848;
+}
+.btnbottom:active{
+	background-color: #1a1a1a;	
+}
+.btnbottom:hover{
+	background-color: #1a1a1a;
+}
+@media screen and (max-width: 1024px){
 	.fila li{
 		float: left;
 		width: 10%;
@@ -116,5 +128,13 @@ td{
 		float: left;
 		margin-left: 5%;
 		font-size: 1em;
+	}
+	td{
+	    padding: 15px 5px !important;
+		font-size: 1em;
+	}
+	.btnbottom{
+		height: 40px;
+    	font-size: 2em;
 	}
 }

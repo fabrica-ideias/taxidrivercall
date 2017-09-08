@@ -94,4 +94,5 @@ function init(){
 			});
 		});
 	}
+	 $('.modal').modal();
 }
