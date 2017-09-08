@@ -1,5 +1,6 @@
 <?php 
 	require_once("model/Usuario.php");
+	require_once("model/Configuracao.class.php");
 	class Fachada{	
 		//Usuario
 		function getUsuarioPorId($idusuario){
@@ -10,6 +11,15 @@
 				$usuario = new Usuario();
 				$usuario-> setUsuario($dados);
 				return $usuario;
+			}
+			return null;
+		}
+		function getConfiguracao(){
+			include("conexao.php");
+			$result = mysqli_query($con,"select * from configuracao where idconfig='1'");
+			if( mysqli_num_rows($result) > 0){
+				$dados =  mysqli_fetch_array($result);
+				return json_encode($dados);
 			}
 			return null;
 		}
@@ -32,7 +42,12 @@
 			$fachada->startSession('false','idusuario',mysqli_insert_id($con));
 			echo "0";
 		}
-
+		function salvaConfiguracao($config){
+			include("conexao.php");
+			mysqli_query($con,"UPDATE configuracao SET cor_fundo = '$config->cor_fundo', cor_conteudo = '$config->cor_conteudo', cor_menu = '$config->cor_menu'  WHERE idconfig='1'");
+			echo "ok";
+		}
+		
 		function startSession($manterConectado,$session,$valor){	
 			session_start();
 			$_SESSION[$session] = $valor;

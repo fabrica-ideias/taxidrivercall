@@ -1,6 +1,7 @@
 function initLogin(){
 	var verificarEmail = false;
 	var usuario = null;
+	var config = null;
 	var validaEmail = false;
 	function login(){
 		if(verificarEmail == false){
@@ -24,6 +25,7 @@ function initLogin(){
 			request.done(function (response, textStatus, jqXHR){
 				document.getElementById("progress").style.display = "block";
 				if(response != "0"){
+					console.log(response);
 					usuario = JSON.parse(response);
 					document.getElementById("checkConect").innerHTML = "<p><input type='checkbox' id='manterConectado' /><label for='manterConectado'>Manter conectado</label></p>";
 					document.getElementById("nameLogin").innerHTML = "<label class='namePerson'>"+usuario.nome+"</label>";
@@ -164,6 +166,7 @@ function initLogin(){
 			if(usuario !=  "0"){
 				document.getElementById("containerLogin").style.display = "none";
 				incluirPainel();
+				initConfiguracao();
 			}else{
 				document.getElementById("checkConect").innerHTML = "";
 				document.getElementById("nameLogin").innerHTML = "<h4> Login</h4>";
@@ -228,10 +231,9 @@ function initLogin(){
 		        type: "post"
 		});
 		request.done(function (response, textStatus, jqXHR){
+			desativar();
 			verificaLogin();
-			
-			document.getElementById("conteudo").style.display = "none";
-		 	console.log("Verificando Login");
+			console.log("Verificando Login");
 		});	
 	}
 	//Chama a tela de cadastro
@@ -281,31 +283,108 @@ function initLogin(){
 	}
 
 	function incluirPainel(){
-		document.getElementById("conteudo").style.display = "block";
-		//document.getElementById("nomeUser").innerHTML = usuario.nome;
-		//document.getElementById("mUser").style.backgroundImage = "url('uploads/"+usuario.perfil+"')";
-		document.getElementById("logout").addEventListener("click",function(){
-			logout();
-		});
-
-
+		document.getElementById("container").style.display = "block";
 		$(document).ready(function(){
-		  $('.dropdown-button').dropdown({
-			      inDuration: 300,
-			      outDuration: 225,
-			      constrainWidth: false, // Does not change width of dropdown to that of the activator
-			      hover: false, // Activate on hover
-			      gutter: 0, // Spacing from edge
-			      belowOrigin: false, // Displays dropdown below the button
-			      alignment: 'left', // Displays dropdown with edge aligned to the left of button
-			      stopPropagation: false // Stops event propagation
-	    		}
-	  		);
 		   $('.collapsible').collapsible();
 		   $('.modal').modal();
+		    $(".button-collapse").sideNav();
   			init();
 		});
+		initConfiguracao();
 		
 	}
 	verificaLogin();
+
+	function initConfiguracao(){
+		request = $.ajax({
+		        url: "php/configuracao.php",
+		        type: "POST"
+		});
+		request.done(function (response, textStatus, jqXHR){
+			config = JSON.parse(response);
+			document.getElementById("menu_painel").style.background = config.cor_menu;
+			document.getElementById("conteudo_painel").style.background = config.cor_conteudo;
+			document.getElementById("container").style.background = config.cor_fundo;
+			document.getElementsByTagName("body")[0].style.background = config.cor_fundo;
+			document.getElementById("logo").src = "assets/icon/"+config.logo;
+		 	document.getElementById("btnConfiguracao").addEventListener("click",function(){
+		 		abrirConfiguracao();
+		 	});
+		 	document.getElementById("logout").addEventListener("click",function(){
+				logout();
+			});
+			document.getElementById("btnConfiguracaoMobile").addEventListener("click",function(){
+				$('.button-collapse').sideNav('hide');
+		 		abrirConfiguracao();
+		 	});
+		 	document.getElementById("logoutMobile").addEventListener("click",function(){
+				$('.button-collapse').sideNav('hide');
+				logout();
+			});
+		});
+		request.fail(function (jqXHR, textStatus, errorThrown){
+		    console.error(
+		        "The following error occurred: "+
+		        textStatus, errorThrown
+		    );
+		});
+	}
+
+	function abrirConfiguracao(){
+		document.getElementById("configuracao").style.display = "block";
+		document.getElementById("cor_menu").value = config.cor_menu;
+		document.getElementById("cor_fundo").value = config.cor_fundo;
+		document.getElementById("cor_conteudo").value = config.cor_conteudo;
+		document.getElementById("cor_menu").addEventListener("change",function(){
+			document.getElementById("menu_painel").style.background = document.getElementById("cor_menu").value;
+		});
+		document.getElementById("cor_conteudo").addEventListener("change",function(){
+			document.getElementById("conteudo_painel").style.background = document.getElementById("cor_conteudo").value;
+		});
+		document.getElementById("cor_fundo").addEventListener("change",function(){
+			document.getElementById("container").style.background = document.getElementById("cor_fundo").value;
+			document.getElementsByTagName("body")[0].style.background = document.getElementById("cor_fundo").value;
+		});
+		document.getElementById("btnSalvaConfig").addEventListener("click",function(){
+			var file_data = document.getElementById("fileLogo").files[0];
+		 	var form_data = new FormData();
+		 	form_data.append('file', file_data);
+		 	form_data.append('cor_fundo',  document.getElementById("cor_fundo").value);
+		 	form_data.append('cor_conteudo', document.getElementById("cor_conteudo").value);
+		 	form_data.append('cor_menu', document.getElementById("cor_menu").value);
+			request = $.ajax({
+				        type:"POST",
+				        url:"php/salvaConfiguracao.php",
+						type: "POST",             // Type of request to be send, called as method
+						data: form_data, // Data sent to server, a set of key/value pairs (i.e. form fields and values)
+						contentType: false,       // The content type used when sending data to the server.
+						cache: false,             // To unable request pages to be cached
+						processData:false,        // To send DOMDocument or non processed data file it is set to false
+						success: function(data) {
+							document.getElementById("configuracao").style.display = "none";
+				        }
+			});
+		});
+		document.getElementById("cancelar").addEventListener("click",function(){
+			document.getElementById("configuracao").style.display = "none";
+		});
+		document.getElementById("fileLogo").addEventListener("change",function(){
+			var img;
+			var  input = document.getElementById("fileLogo");
+			console.log("teste");
+		    if (input.files && input.files[0]) {
+		      	var reader = new FileReader();
+		      	reader.onload = function (e) {
+			        img = new FormData(input);
+			        document.getElementById("logo").src = ""+e.target.result;
+			        document.getElementById("nome").focus();
+		    	}
+		      	reader.readAsDataURL(input.files[0]);
+		    } 
+		});
+	}
+	function desativar(){
+		document.getElementById("configuracao").style.display = "none";
+		document.getElementById("container").style.display = "none";
+	}
 }
