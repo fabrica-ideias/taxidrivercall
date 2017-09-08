@@ -52,57 +52,58 @@
 		    <?php require_once("cadastro.php");?>
 		</div>
 		<div class="col s12 m4 l4"></div>
-	</div>	
-	<nav class="nav-extended" id="conteudo">
-		<div class="nav-wrapper">
-			<a href="#" data-activates="mobile-demo" class="button-collapse">
-				<i class="material-icons">menu</i>
-			</a>
-			<ul id="nav-mobile" class="right hide-on-med-and-down">
-				<li><a id="logout">Sair</a></li>
-			</ul>
-			<ul class="side-nav" id="mobile-demo">
-				<li><a id="logout">Sair</a></li>
-			</ul>
-		</div>
-	    <div class="nav-content">
-	      <ul class="tabs tabs-transparent">
-	        <li class="tab"><a href="#test1">HOME</a></li>
-	        <li class="tab"><a  class="active" href="#test2" id="btnTaxi">TAXIS</a></li>
-	      </ul>
-	    </div>
-  	</nav>
-  	<div id="test1" class="col s12">
- 	</div>
-  	<div id="test2" class="col s12">
-  		<div class="row">
-			<div class="col s2">
-				<ul class="collapsible" data-collapsible="accordion">
-					<li>
-						<div class="collapsible-header">
-							<i class="material-icons">list</i>Lista
-						</div>
-						<div class="collapsible-body">
-							<ul>
-								<li><a href="telaespera.php">Lista de espera</a></li>
-								<li><a href="configurafila.php">Ordenar fila de Taxi</a></li>
-							</ul>
-						</div>
-					</li>
-					<li>
-						<div class="collapsible-header">
-							<i class="material-icons">settings</i>
-							Configuração</div>
-						<div class="collapsible-body">
-							<span>Lorem ipsum dolor sit amet.</span>
-						</div>
-					</li>
+	</div>
+	<div class="row" id="container">
+		<nav id="menu_painel">
+			<div class="nav-wrapper">
+				<img src="" width="15%" height="100%" id="logo" class="brand-logo">
+				 <a href="#" id="mobile" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+			      <ul id="nav-mobile" class="right hide-on-med-and-down">
+			        <li><a id="btnConfiguracao" href="#">Configuração</a></li>
+					<li><a id="logout" href="#">Sair</a></li>
+			      </ul>
+				 <ul class="side-nav" id="mobile-demo">
+					<li><a id="btnConfiguracaoMobile" href="#">Configuração</a></li>
+					<li><a id="logoutMobile" href="#">Sair</a></li>
 				</ul>
 			</div>
-			<div class="col s12">
-				<?php require_once("fila.php");?>
+		</nav>	
+		<div class="row">
+			<div class="col s2"></div>
+			<div class="col s8" id="conteudo_painel">
+			</div>
+			<div class="col s2"></div>
+		</div>
+		<div class="row" >
+				<div class="col s12">
+					<div class="configuracao" id="configuracao">
+						<a id="cancelar">X</a>
+						<div class="col s4">
+							<p>Cor do Menu</p><input type="color" id="cor_menu"/>
+							<p>Cor do Painel de Conteudo</p><input type="color" id="cor_conteudo"/>
+							<p>Cor do Fundo</p><input type="color" id="cor_fundo"/>
+						</div>
+						<div class="col s8 l4">
+							<form action="#">
+								<div class="file-field input-field">
+									<div class="btn">
+										<span>File</span>
+										<input type="file" accept="image/*" class="fileImg" name="file" id="file">
+									</div>
+									<div class="file-path-wrapper">
+										<input type="file" accept="image/*" class="fileImg" name="fileLogo" id="fileLogo">
+										<input class="file-path validate" type="text" placeholder="Upload one or more files">
+									</div>
+								</div>
+							</form>
+							<div class="col s2 l5"></div>
+							<button class="col s8 l2 btn" id="btnSalvaConfig">Salvar</button>
+							<div class="col s2 l5"></div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
-  	</div>	
+	</div>
 </body> 
 </html>
