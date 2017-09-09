@@ -104,7 +104,7 @@ function initLogin(){
 			document.getElementById("password").focus();
 		}
 	}
-	//checa se  tem erro de digitação
+	//checa se  tem error de digitação
 	function validaEmailUser(email){
 		var dominio = email.split("@");
 		var subdominio = dominio[1].split(".");
@@ -145,7 +145,8 @@ function initLogin(){
 		        data: "idusuario="+usuario.idusuario+"&conexao="+conectado
 		});
 		request.done(function (response, textStatus, jqXHR){
-			incluirPainel();
+			//checa se o usuario esta logado
+			verificaLogin();
 		 	console.log("Sessao Iniciada");
 		});
 		request.fail(function (jqXHR, textStatus, errorThrown){
@@ -167,7 +168,9 @@ function initLogin(){
 				document.getElementById("containerLogin").style.display = "none";
 				incluirPainel();
 				initConfiguracao();
+				document.title = "Taxi Driver";
 			}else{
+				document.title = "Login";
 				document.getElementById("checkConect").innerHTML = "";
 				document.getElementById("nameLogin").innerHTML = "<h4> Login</h4>";
 				document.getElementById("progress").style.display = "none";
@@ -295,12 +298,14 @@ function initLogin(){
 	}
 	verificaLogin();
 
+//Ativa as Configuração de Layout e Eventos
 	function initConfiguracao(){
 		request = $.ajax({
 		        url: "php/configuracao.php",
 		        type: "POST"
 		});
 		request.done(function (response, textStatus, jqXHR){
+			//pega a configuração e colocar e jogar na tela
 			config = JSON.parse(response);
 			document.getElementById("menu_painel").style.background = config.cor_menu;
 			document.getElementById("conteudo_painel").style.background = config.cor_conteudo;
@@ -313,13 +318,20 @@ function initLogin(){
 		 	document.getElementById("logout").addEventListener("click",function(){
 				logout();
 			});
+			//abri as configuração de cores da tela
 			document.getElementById("btnConfiguracaoMobile").addEventListener("click",function(){
 				$('.button-collapse').sideNav('hide');
 		 		abrirConfiguracao();
 		 	});
+		 	//Faz logout 
 		 	document.getElementById("logoutMobile").addEventListener("click",function(){
 				$('.button-collapse').sideNav('hide');
 				logout();
+			});
+			//Abri o layout de Configuração de Fila
+			document.getElementById("btnConfiguracaoFila").addEventListener("click",function(){
+				document.getElementById("configuracaoFila").style.display = "block";
+				initOrdemFila();
 			});
 		});
 		request.fail(function (jqXHR, textStatus, errorThrown){
@@ -382,6 +394,8 @@ function initLogin(){
 		      	reader.readAsDataURL(input.files[0]);
 		    } 
 		});
+		
+
 	}
 	function desativar(){
 		document.getElementById("configuracao").style.display = "none";

@@ -137,6 +137,9 @@ td{
 #container{
 	display: none;
 }
+.painel{
+	display: none;
+}
 @media screen and (max-width: 1024px){
 	.fila li{
 		float: left;

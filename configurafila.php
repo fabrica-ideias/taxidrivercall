@@ -19,7 +19,7 @@
 		<div class="row" style="margin-top: 5%;">
 			<div class="row">
 				<div class="col s12 subcontainer " style="padding:0px 30px;">
-					<ul class="fila" id="fila_posto3">
+					<ul class="fila ordemFila" id="fila_posto3">
 						<?php
 							$fila = json_decode(file_get_contents('php/arquivo.json'));
 							foreach ($fila->posto1 as $taxi) {

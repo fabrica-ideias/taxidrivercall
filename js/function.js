@@ -13,7 +13,9 @@ function init(){
 				id = result.id;
 				mostraFila(result);
 				if(mostraTela == true){
-					document.getElementById('audio').play();
+					if(document.getElementById("audio") != null){
+						document.getElementById('audio').play();
+					}
 				}
 				mostraTela = true;
 			}
@@ -95,4 +97,37 @@ function init(){
 		});
 	}
 	 $('.modal').modal();
+}
+
+function initOrdemFila(){
+	console.log("iniciar ordenamento de lista");
+	$(function() {
+		var ordem = [];
+	    $( "ul.filaordem" ).sortable();
+	    $( "ul.filaordem" ).disableSelection();
+	    $('.btnSalvaOrdem').click(function(){
+	    	console.log("salva ordem fila");
+	    	ordem = [];
+		    $( "li" ).each(function( index ) {
+				ordem.push($( this ).text());
+
+			});
+			request = $.ajax({
+		        url: "php/ordenarLista.php",
+		        type: "post",
+		        data: {'ordem': JSON.stringify(ordem)}
+			});
+			request.done(function (response, textStatus, jqXHR){
+				console.log(response);
+
+			});
+			request.fail(function (jqXHR, textStatus, errorThrown){
+			    console.error(
+			        "The following error occurred: "+
+			        textStatus, errorThrown
+			    );
+			});
+	    });
+
+	});
 }
