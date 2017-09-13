@@ -18,14 +18,13 @@ function initLogin(){
 	function verificaEmail(email){
 		if(email.indexOf("@") >= 0 && email.indexOf(".com") >= 0 ){
 			request = $.ajax({
-			        url: "php/consultaEmail.php",
-			        type: "post",
-			        data: "email="+email
+				url: "php/consultaEmail.php",
+				type: "post",
+				data: "email="+email
 			});
 			request.done(function (response, textStatus, jqXHR){
 				document.getElementById("progress").style.display = "block";
 				if(response != "0"){
-					console.log(response);
 					usuario = JSON.parse(response);
 					document.getElementById("checkConect").innerHTML = "<p><input type='checkbox' id='manterConectado' /><label for='manterConectado'>Manter conectado</label></p>";
 					document.getElementById("nameLogin").innerHTML = "<label class='namePerson'>"+usuario.nome+"</label>";
@@ -42,16 +41,16 @@ function initLogin(){
 				}
 			});
 			request.fail(function (jqXHR, textStatus, errorThrown){
-			    console.error(
-			        "The following error occurred: "+
-			        textStatus, errorThrown
-			    );
+				console.error(
+					"The following error occurred: "+
+					textStatus, errorThrown
+					);
 			});
 		}else{
 			document.getElementById("email").focus();
 			document.getElementById("lEmail").setAttribute("data-error","E-mail Invalido");
 			document.getElementById("email").setAttribute("class", "validate invalid");
-					
+
 		}
 	}
 	function verificaEmailCadastro(){
@@ -59,9 +58,9 @@ function initLogin(){
 		validaEmailUser(email);
 		if(email.indexOf("@") >= 0 && email.indexOf(".com") >= 0 ){
 			request = $.ajax({
-			        url: "php/consultaEmail.php",
-			        type: "post",
-			        data: "email="+email
+				url: "php/consultaEmail.php",
+				type: "post",
+				data: "email="+email
 			});
 			request.done(function (response, textStatus, jqXHR){
 				if(response != "0"){
@@ -75,10 +74,10 @@ function initLogin(){
 				}
 			});
 			request.fail(function (jqXHR, textStatus, errorThrown){
-			    console.error(
-			        "The following error occurred: "+
-			        textStatus, errorThrown
-			    );
+				console.error(
+					"The following error occurred: "+
+					textStatus, errorThrown
+					);
 			});
 		}else{
 			document.getElementById("emailUser").focus();
@@ -119,20 +118,20 @@ function initLogin(){
 		}
 		switch(result){
 			case 0: 
-				document.getElementById("emailUser").focus();
-				document.getElementById("lEmailUser").setAttribute("data-error","Possivel erro de digitação: hotmail,yahoo,gmail");
-				document.getElementById("emailUser").setAttribute("class", "validate invalid");
-				break;
+			document.getElementById("emailUser").focus();
+			document.getElementById("lEmailUser").setAttribute("data-error","Possivel erro de digitação: hotmail,yahoo,gmail");
+			document.getElementById("emailUser").setAttribute("class", "validate invalid");
+			break;
 			case 1:
-				document.getElementById("emailUser").focus();
-				document.getElementById("lEmailUser").setAttribute("data-error","Possivel erro de digitação: com");
-				document.getElementById("emailUser").setAttribute("class", "validate invalid");
-				break;
+			document.getElementById("emailUser").focus();
+			document.getElementById("lEmailUser").setAttribute("data-error","Possivel erro de digitação: com");
+			document.getElementById("emailUser").setAttribute("class", "validate invalid");
+			break;
 			case 2:
-				document.getElementById("emailUser").focus();
-				document.getElementById("lEmailUser").setAttribute("data-error","Possivel erro de digitação: br,org");
-				document.getElementById("emailUser").setAttribute("class", "validate invalid");
-				break;
+			document.getElementById("emailUser").focus();
+			document.getElementById("lEmailUser").setAttribute("data-error","Possivel erro de digitação: br,org");
+			document.getElementById("emailUser").setAttribute("class", "validate invalid");
+			break;
 		}
 
 	}
@@ -140,27 +139,27 @@ function initLogin(){
 	//inicia a sessao
 	function startSession(conectado){
 		request = $.ajax({
-		        url: "php/startSession.php",
-		        type: "get",
-		        data: "idusuario="+usuario.idusuario+"&conexao="+conectado
+			url: "php/startSession.php",
+			type: "get",
+			data: "idusuario="+usuario.idusuario+"&conexao="+conectado
 		});
 		request.done(function (response, textStatus, jqXHR){
 			//checa se o usuario esta logado
 			verificaLogin();
-		 	console.log("Sessao Iniciada");
+			console.log("Sessao Iniciada");
 		});
 		request.fail(function (jqXHR, textStatus, errorThrown){
-		    console.error(
-		        "The following error occurred: "+
-		        textStatus, errorThrown
-		    );
+			console.error(
+				"The following error occurred: "+
+				textStatus, errorThrown
+				);
 		});
 	}
 	//verifica se esta logado
 	function verificaLogin(){
 		request = $.ajax({
-		        url: "php/checkSession.php",
-		        type: "post"
+			url: "php/checkSession.php",
+			type: "post"
 		});
 		request.done(function(response, textStatus, jqXHR){
 			usuario = JSON.parse(response);
@@ -199,39 +198,39 @@ function initLogin(){
 					EnterTab('emailUser',event)
 				});
 				document.getElementById("emailUser").addEventListener("keydown",function(){
-					 if(event.keyCode == 13) verificaEmailCadastro();
+					if(event.keyCode == 13) verificaEmailCadastro();
 				});
 				document.getElementById("salvaUsuario").addEventListener("click",function(){
-					 salvaUsuario();
+					salvaUsuario();
 				});
 				document.getElementById("file").addEventListener("change",function(){
 					var img;
 					var  input = document.getElementById("file");
-				    if (input.files && input.files[0]) {
-				      	var reader = new FileReader();
-				      	reader.onload = function (e) {
-					        img = new FormData(input);
-					        document.getElementById("imgNewUser").style.backgroundImage = "url('"+e.target.result+"')";
-					        document.getElementById("nome").focus();
-				    	}
-				      	reader.readAsDataURL(input.files[0]);
-				    } 
+					if (input.files && input.files[0]) {
+						var reader = new FileReader();
+						reader.onload = function (e) {
+							img = new FormData(input);
+							document.getElementById("imgNewUser").style.backgroundImage = "url('"+e.target.result+"')";
+							document.getElementById("nome").focus();
+						}
+						reader.readAsDataURL(input.files[0]);
+					} 
 				});
 			}
-		 	console.log("Sessao Verificada");
+			console.log("Sessao Verificada");
 		});
 		request.fail(function (jqXHR, textStatus, errorThrown){
-		    console.error(
-		        "The following error occurred: "+
-		        textStatus, errorThrown
-		    );
+			console.error(
+				"The following error occurred: "+
+				textStatus, errorThrown
+				);
 		});
 	}
 	//logout
 	function logout(){
 		request = $.ajax({
-		        url: "php/logout.php",
-		        type: "post"
+			url: "php/logout.php",
+			type: "post"
 		});
 		request.done(function (response, textStatus, jqXHR){
 			desativar();
@@ -255,17 +254,16 @@ function initLogin(){
 	
 	//Salva o usuario
 	function salvaUsuario(){
-		if(validaEmail == true){
-			var x = document.getElementById("file");
-			var file_data =x.files[0];
-		 	var form_data = new FormData();
-		 	form_data.append('file', file_data);
-		 	form_data.append('nome',  $('#nome').val()+" "+$('#sobrenome').val());
-		 	form_data.append('email', $('#emailUser').val());
-		 	form_data.append('senha', $('#senhaUser').val());
-			request = $.ajax({
-				        type:"POST",
-				        url:"php/salvaUsuario.php",
+		var x = document.getElementById("file");
+		var file_data =x.files[0];
+		var form_data = new FormData();
+		form_data.append('file', file_data);
+		form_data.append('nome',  $('#nome').val()+" "+$('#sobrenome').val());
+		form_data.append('email', $('#emailUser').val());
+		form_data.append('senha', $('#senhaUser').val());
+		request = $.ajax({
+			type:"POST",
+			url:"php/salvaUsuario.php",
 						type: "POST",             // Type of request to be send, called as method
 						data: form_data, // Data sent to server, a set of key/value pairs (i.e. form fields and values)
 						contentType: false,       // The content type used when sending data to the server.
@@ -275,23 +273,18 @@ function initLogin(){
 							console.log(data);
 							usuario= JSON.parse(data);
 							document.getElementById("containerLogin").style.display = "none";
-				        	incluirPainel();
-				        }
-			});
-		}else{
-			document.getElementById("emailUser").focus();
-			document.getElementById("emailUser").setAttribute("class", "validate invalid");
-		}
-
+							incluirPainel();
+						}
+					});
 	}
 
 	function incluirPainel(){
 		document.getElementById("container").style.display = "block";
 		$(document).ready(function(){
-		   $('.collapsible').collapsible();
-		   $('.modal').modal();
-		    $(".button-collapse").sideNav();
-  			init();
+			$('.collapsible').collapsible();
+			$('.modal').modal();
+			$(".button-collapse").sideNav();
+			init();
 		});
 		initConfiguracao();
 		
@@ -299,12 +292,12 @@ function initLogin(){
 	verificaLogin();
 
 //Ativa as Configuração de Layout e Eventos
-	function initConfiguracao(){
-		request = $.ajax({
-		        url: "php/configuracao.php",
-		        type: "POST"
-		});
-		request.done(function (response, textStatus, jqXHR){
+function initConfiguracao(){
+	request = $.ajax({
+		url: "php/configuracao.php",
+		type: "POST"
+	});
+	request.done(function (response, textStatus, jqXHR){
 			//pega a configuração e colocar e jogar na tela
 			config = JSON.parse(response);
 			document.getElementById("menu_painel").style.background = config.cor_menu;
@@ -312,61 +305,57 @@ function initLogin(){
 			document.getElementById("container").style.background = config.cor_fundo;
 			document.getElementsByTagName("body")[0].style.background = config.cor_fundo;
 			document.getElementById("logo").src = "assets/icon/"+config.logo;
-		 	document.getElementById("btnConfiguracao").addEventListener("click",function(){
-		 		abrirConfiguracao();
-		 	});
-		 	document.getElementById("logout").addEventListener("click",function(){
+			document.getElementById("btnConfiguracao").addEventListener("click",function(){
+				abrirConfiguracao();
+			});
+			document.getElementById("logout").addEventListener("click",function(){
 				logout();
 			});
 			//abri as configuração de cores da tela
 			document.getElementById("btnConfiguracaoMobile").addEventListener("click",function(){
 				$('.button-collapse').sideNav('hide');
-		 		abrirConfiguracao();
-		 	});
+				abrirConfiguracao();
+			});
 		 	//Faz logout 
 		 	document.getElementById("logoutMobile").addEventListener("click",function(){
-				$('.button-collapse').sideNav('hide');
-				logout();
-			});
-			//Abri o layout de Configuração de Fila
-			document.getElementById("btnConfiguracaoFila").addEventListener("click",function(){
-				document.getElementById("configuracaoFila").style.display = "block";
-				initOrdemFila();
-			});
-		});
-		request.fail(function (jqXHR, textStatus, errorThrown){
-		    console.error(
-		        "The following error occurred: "+
-		        textStatus, errorThrown
-		    );
-		});
-	}
+		 		$('.button-collapse').sideNav('hide');
+		 		logout();
+		 	});
 
-	function abrirConfiguracao(){
-		document.getElementById("configuracao").style.display = "block";
-		document.getElementById("cor_menu").value = config.cor_menu;
-		document.getElementById("cor_fundo").value = config.cor_fundo;
-		document.getElementById("cor_conteudo").value = config.cor_conteudo;
-		document.getElementById("cor_menu").addEventListener("change",function(){
-			document.getElementById("menu_painel").style.background = document.getElementById("cor_menu").value;
-		});
-		document.getElementById("cor_conteudo").addEventListener("change",function(){
-			document.getElementById("conteudo_painel").style.background = document.getElementById("cor_conteudo").value;
-		});
-		document.getElementById("cor_fundo").addEventListener("change",function(){
-			document.getElementById("container").style.background = document.getElementById("cor_fundo").value;
-			document.getElementsByTagName("body")[0].style.background = document.getElementById("cor_fundo").value;
-		});
-		document.getElementById("btnSalvaConfig").addEventListener("click",function(){
-			var file_data = document.getElementById("fileLogo").files[0];
-		 	var form_data = new FormData();
-		 	form_data.append('file', file_data);
-		 	form_data.append('cor_fundo',  document.getElementById("cor_fundo").value);
-		 	form_data.append('cor_conteudo', document.getElementById("cor_conteudo").value);
-		 	form_data.append('cor_menu', document.getElementById("cor_menu").value);
-			request = $.ajax({
-				        type:"POST",
-				        url:"php/salvaConfiguracao.php",
+		 });
+	request.fail(function (jqXHR, textStatus, errorThrown){
+		console.error(
+			"The following error occurred: "+
+			textStatus, errorThrown
+			);
+	});
+}
+
+function abrirConfiguracao(){
+	document.getElementById("configuracao").style.display = "block";
+	document.getElementById("cor_menu").value = config.cor_menu;
+	document.getElementById("cor_fundo").value = config.cor_fundo;
+	document.getElementById("cor_conteudo").value = config.cor_conteudo;
+	document.getElementById("cor_menu").addEventListener("change",function(){
+		document.getElementById("menu_painel").style.background = document.getElementById("cor_menu").value;
+	});
+	document.getElementById("cor_conteudo").addEventListener("change",function(){
+		document.getElementById("conteudo_painel").style.background = document.getElementById("cor_conteudo").value;
+	});
+	document.getElementById("cor_fundo").addEventListener("change",function(){
+		document.getElementById("container").style.background = document.getElementById("cor_fundo").value;
+		document.getElementsByTagName("body")[0].style.background = document.getElementById("cor_fundo").value;
+	});
+	document.getElementById("btnSalvaConfig").addEventListener("click",function(){
+		var file_data = document.getElementById("fileLogo").files[0];
+		var form_data = new FormData();
+		form_data.append('file', file_data);
+		form_data.append('cor_fundo',  document.getElementById("cor_fundo").value);
+		form_data.append('cor_conteudo', document.getElementById("cor_conteudo").value);
+		form_data.append('cor_menu', document.getElementById("cor_menu").value);
+		request = $.ajax({
+			type:"POST",
+			url:"php/salvaConfiguracao.php",
 						type: "POST",             // Type of request to be send, called as method
 						data: form_data, // Data sent to server, a set of key/value pairs (i.e. form fields and values)
 						contentType: false,       // The content type used when sending data to the server.
@@ -374,31 +363,31 @@ function initLogin(){
 						processData:false,        // To send DOMDocument or non processed data file it is set to false
 						success: function(data) {
 							document.getElementById("configuracao").style.display = "none";
-				        }
-			});
-		});
-		document.getElementById("cancelar").addEventListener("click",function(){
-			document.getElementById("configuracao").style.display = "none";
-		});
-		document.getElementById("fileLogo").addEventListener("change",function(){
-			var img;
-			var  input = document.getElementById("fileLogo");
-			console.log("teste");
-		    if (input.files && input.files[0]) {
-		      	var reader = new FileReader();
-		      	reader.onload = function (e) {
-			        img = new FormData(input);
-			        document.getElementById("logo").src = ""+e.target.result;
-			        document.getElementById("nome").focus();
-		    	}
-		      	reader.readAsDataURL(input.files[0]);
-		    } 
-		});
-		
-
-	}
-	function desativar(){
+						}
+					});
+	});
+	document.getElementById("cancelar").addEventListener("click",function(){
 		document.getElementById("configuracao").style.display = "none";
-		document.getElementById("container").style.display = "none";
-	}
+	});
+	document.getElementById("fileLogo").addEventListener("change",function(){
+		var img;
+		var  input = document.getElementById("fileLogo");
+		console.log("teste");
+		if (input.files && input.files[0]) {
+			var reader = new FileReader();
+			reader.onload = function (e) {
+				img = new FormData(input);
+				document.getElementById("logo").src = ""+e.target.result;
+				document.getElementById("nome").focus();
+			}
+			reader.readAsDataURL(input.files[0]);
+		} 
+	});
+
+
+}
+function desativar(){
+	document.getElementById("configuracao").style.display = "none";
+	document.getElementById("container").style.display = "none";
+}
 }

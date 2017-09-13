@@ -1,6 +1,7 @@
 function init(){
 	var mostraTela = false;
 	var id = 0;
+	var alteracao = 0;
 	function checaOrdemDaFila(){
 		request = $.ajax({
 		        url: "php/verificarFila.php",
@@ -18,6 +19,10 @@ function init(){
 					}
 				}
 				mostraTela = true;
+			}
+			if(alteracao != result.alteracao){
+				alteracao = result.alteracao;
+				mostraFila(result);
 			}
 
 		});

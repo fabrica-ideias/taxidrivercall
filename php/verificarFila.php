@@ -13,7 +13,7 @@
 			$random_keys=array_rand($status,2);
 			$taxi = new Taxi();
 			$taxi->setNumero(($i + 1));
-			$taxi->setStatus($status[$random_keys[0]]);
+			$taxi->setStatus("ausente");
 			$taxi->setDispositivo("");
 			$fila[] = $taxi;
 		}
@@ -50,7 +50,7 @@
 				}
 			}
 		}
-		$ordem = array("posto1" => $posto1 , "posto2" => $posto2, "posto3" => $posto3,"problemas" =>$problema,"id"=>1);
+		$ordem = array("posto1" => $posto1 , "posto2" => $posto2, "posto3" => $posto3,"problemas" =>$problema,"id"=>1,"alteracao"=>1);
 		$fp = fopen('arquivo.json', 'w');
 		fwrite($fp, json_encode($ordem));
 		fclose($fp);

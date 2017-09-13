@@ -28,9 +28,15 @@
 			}
 		}
 		$paraPosto3->status = "ausente";
-		$fila->posto3[count($fila->posto3)-1] = $paraPosto3 ;
-		$fila->posto2[count($fila->posto2)-1] = $paraPosto2;
-		$fila->posto1[count($fila->posto1)-1] = $paraPosto1;
+		if($paraPosto3  != null){
+			$fila->posto3[count($fila->posto3)-1] = $paraPosto3 ;
+		}
+		if($paraPosto2 != null){
+			$fila->posto2[count($fila->posto2)-1] = $paraPosto2;
+		}
+		if($paraPosto1 != null){
+			$fila->posto1[count($fila->posto1)-1] = $paraPosto1;
+		}
 		$fila->id +=  1;
 		$fp = fopen('arquivo.json', 'w');
 		fwrite($fp, json_encode($fila));
@@ -80,7 +86,7 @@
 				}
 			}
 		}
-		$ordem = array("posto1" => $posto1 , "posto2" => $posto2, "posto3" => $posto3,"problemas" =>$problema,"id" => 1);
+		$ordem = array("posto1" => $posto1 , "posto2" => $posto2, "posto3" => $posto3,"problemas" =>$problema,"id" => 1,"alteracao"=>1);
 		$fp = fopen('arquivo.json', 'w');
 		fwrite($fp, json_encode($ordem));
 		fclose($fp);

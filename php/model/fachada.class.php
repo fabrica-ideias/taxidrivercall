@@ -5,7 +5,7 @@
 		//Usuario
 		function getUsuarioPorId($idusuario){
 			include("conexao.php");
-			$result = mysqli_query($con,"select * from usuario where idusuario='$idusuario'");
+			$result = mysqli_query($con,"SELECT * FROM du31xu75psg7waby.Usuario where idusuario='$idusuario'");
 			if( mysqli_num_rows($result) > 0){
 				$dados =  mysqli_fetch_array($result);
 				$usuario = new Usuario();
@@ -16,7 +16,7 @@
 		}
 		function getConfiguracao(){
 			include("conexao.php");
-			$result = mysqli_query($con,"select * from configuracao where idconfig='1'");
+			$result = mysqli_query($con,"SELECT * FROM du31xu75psg7waby.Configuracao where idconfig='1'");
 			if( mysqli_num_rows($result) > 0){
 				$dados =  mysqli_fetch_array($result);
 				return json_encode($dados);
@@ -26,8 +26,8 @@
 
 		function getUsuarioEmail($email){
 			include("conexao.php");
-			$result = mysqli_query($con,"select * from usuario where email='$email'");
-			if( mysqli_num_rows($result)){
+			$result = mysqli_query($con,"SELECT * FROM du31xu75psg7waby.Usuario WHERE email='$email'");
+			if(mysqli_num_rows($result)>0){
 				$dados =  mysqli_fetch_array($result);
 				echo json_encode($dados);
 			}else{
@@ -37,14 +37,14 @@
 
 		function salvaUsuario($usuario){
 			include("conexao.php");
-			mysqli_query($con,"insert into usuario (nome,email,senha,perfil) values ('".$usuario->getNome()."','".$usuario->getEmail()."','".$usuario->getSenha()."','".$usuario->getPerfil()."')");
+			mysqli_query($con,"insert into du31xu75psg7waby.Usuario (nome,email,senha,perfil) values ('".$usuario->getNome()."','".$usuario->getEmail()."','".$usuario->getSenha()."','".$usuario->getPerfil()."')");
 			$fachada = new Fachada();
 			$fachada->startSession('false','idusuario',mysqli_insert_id($con));
 			echo "0";
 		}
 		function salvaConfiguracao($config){
 			include("conexao.php");
-			mysqli_query($con,"UPDATE configuracao SET cor_fundo = '$config->cor_fundo', cor_conteudo = '$config->cor_conteudo', cor_menu = '$config->cor_menu'  WHERE idconfig='1'");
+			mysqli_query($con,"UPDATE du31xu75psg7waby.Configuracao SET cor_fundo = '$config->cor_fundo', cor_conteudo = '$config->cor_conteudo', cor_menu = '$config->cor_menu'  WHERE idconfig='1'");
 			echo "ok";
 		}
 		
@@ -55,30 +55,53 @@
 				setcookie($session, $_SESSION[$session], PHP_INT_MAX);
 			}
 		}
-		function alteraStatusTaxi($numero,$status,$dispositivo){
+		function alteraStatusTaxi($dispositivo,$status){
+			$taxis = json_decode(file_get_contents('arquivo.json'));
+			foreach ($taxis->posto1 as $taxi) {
+				if($taxi->dispositivo == $dispositivo){
+					$taxi->status = $status;
+					break;
+				}
+			}
+			foreach ($taxis->posto2 as $taxi) {
+				if($taxi->dispositivo == $dispositivo){
+					$taxi->status = $status;
+					break;
+				}
+			}
+			foreach ($taxis->posto3 as $taxi) {
+				if($taxi->dispositivo == $dispositivo){
+					$taxi->status = $status;
+					break;
+				}
+			}
+
+			$taxis->alteracao +=  1;
+			$fp = fopen('arquivo.json', 'w');
+			fwrite($fp, json_encode($taxis));
+			fclose($fp);	
+			echo json_encode($taxis);
+		}
+		function alteraBeaconTaxi($numero,$dispositivo){
 			$taxis = json_decode(file_get_contents('arquivo.json'));
 			foreach ($taxis->posto1 as $taxi) {
 				if($taxi->numero == $numero){
-					$taxi->status = $status;
 					$taxi->dispositivo = $dispositivo;
 					break;
 				}
 			}
 			foreach ($taxis->posto2 as $taxi) {
 				if($taxi->numero == $numero){
-					$taxi->status = $status;
 					$taxi->dispositivo = $dispositivo;
 					break;
 				}
 			}
 			foreach ($taxis->posto3 as $taxi) {
 				if($taxi->numero == $numero){
-					$taxi->status = $status;
 					$taxi->dispositivo = $dispositivo;
 					break;
 				}
 			}
-			$taxis->id +=  1;
 			$fp = fopen('arquivo.json', 'w');
 			fwrite($fp, json_encode($taxis));
 			fclose($fp);	
