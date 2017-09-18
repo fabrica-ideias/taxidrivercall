@@ -31,10 +31,10 @@ body{
 }
 .titulochamada{
 	border: 1px solid;
-    margin: 0;
-    background-color: #5e69d4;
-    color: #fff;
-    padding: 10px;
+	margin: 0;
+	background-color: #5e69d4;
+	color: #fff;
+	padding: 10px;
 }
 .proximo li{
 	float: left;
@@ -47,7 +47,7 @@ body{
 .fila li{
 	float: left;
 	font-size: 2em;
-	width: 10%;
+	width: 5%;
 	text-align: center;
 	border:1px solid #000;
 	color:#fff;
@@ -68,7 +68,14 @@ body{
 	background-color:#b12c2c;
 	text-shadow: 2px 2px 5px #000;
 }
-
+.plantao{
+	background-color: #2d9ee4;	
+	text-shadow: 2px 2px 5px #000;
+}
+.biqueira{
+	background-color:#064f86;
+	text-shadow: 2px 2px 5px #000;
+}
 .p{
 	font-size: 1.3em;
 }
@@ -76,14 +83,18 @@ td{
 	padding: 0px !important;
 	font-size: 1.5em;
 }
+li.plantao,li.biqueira  {
+    font-size: 1.5em;
+    width: 10%;
+}
 .row .col{
 	padding: 0px;
 }
 .observacao{
 	padding: 5px;
-    border-radius: 4px;
-    margin: 5px;
-    border: 1px solid;
+	border-radius: 4px;
+	margin: 5px;
+	border: 1px solid;
 }
 .observacao ul li{
 	float: left;
@@ -91,23 +102,43 @@ td{
 	font-size: 2em;
 }
 .grabbable {
-    cursor: move; /* fallback if grab cursor is unsupported */
-    cursor: grab;
-    cursor: -moz-grab;
-    cursor: -webkit-grab;
+	cursor: move; /* fallback if grab cursor is unsupported */
+	cursor: grab;
+	cursor: -moz-grab;
+	cursor: -webkit-grab;
 }
-
- /* (Optional) Apply a "closed-hand" cursor during drag operation. */
+.statustaxi {
+	color:#000;
+	float:left;
+	margin-left:5px;
+}
+p.presente_taxi{
+	background-color: none;
+	color: #3aa13d;	
+	font-size: 1em;
+	text-shadow: 2px 2px 5px #000;
+}
+p.ausente_taxi{
+	font-size: 1em;
+	color: #e3f107;	
+	text-shadow: 2px 2px 5px #000;
+}
+p.problema_taxi{
+	font-size: 1em;
+	color:#b12c2c;
+	text-shadow: 2px 2px 5px #000;
+}
+/* (Optional) Apply a "closed-hand" cursor during drag operation. */
 .grabbable:active { 
-    cursor: grabbing;
-    cursor: -moz-grabbing;
-    cursor: -webkit-grabbing;
+	cursor: grabbing;
+	cursor: -moz-grabbing;
+	cursor: -webkit-grabbing;
 }
 
 .btnbottom{
 	position: absolute;
-    bottom: 0;
-    background-color: #4b4848;
+	bottom: 0;
+	background-color: #4b4848;
 }
 .btnbottom:active{
 	background-color: #1a1a1a;	
@@ -123,22 +154,29 @@ td{
 .configuracao{
 	display: none;
 	position: fixed;
-    bottom: 0;
-    width: 100%;
-    padding: 10px;
-    background-color: #fff;
-    border: 1px solid;
-    border-color: #afafaf;
+	bottom: 0;
+	width: 100%;
+	padding: 10px;
+	background-color: #fff;
+	border: 1px solid;
+	border-color: #afafaf;
 }
- #cancelar{
+#cancelar{
 	float: right;
 	color:#000;
 }
-#container{
+#container,.painel,#configFila,#horarioFila{
 	display: none;
 }
-.painel{
-	display: none;
+#listafila2{
+	margin:1px;
+	width: 5%;
+	color: #fff;
+	background: #3aa13d;
+	text-align: center;
+	text-shadow: 2px 2px 5px #000;
+	border-radius: 4px;box-shadow: 5px 5px 5px #b2b0b0;
+	margin-bottom: 20px;
 }
 @media screen and (max-width: 1024px){
 	.fila li{
@@ -149,17 +187,21 @@ td{
 		border:1px solid #000;
 		color:#fff;
 	}
+	#listafila2{
+		width: 5%;
+		font-size: 0.75em;
+	}
 	.observacao ul li{
 		float: left;
 		margin-left: 5%;
 		font-size: 1em;
 	}
 	td{
-	    padding: 15px 5px !important;
+		padding: 15px 5px !important;
 		font-size: 1em;
 	}
 	.btnbottom{
 		height: 40px;
-    	font-size: 2em;
+		font-size: 2em;
 	}
 }

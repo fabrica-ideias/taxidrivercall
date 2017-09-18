@@ -166,7 +166,6 @@ function initLogin(){
 			if(usuario !=  "0"){
 				document.getElementById("containerLogin").style.display = "none";
 				incluirPainel();
-				initConfiguracao();
 				document.title = "Taxi Driver";
 			}else{
 				document.title = "Login";
@@ -284,7 +283,7 @@ function initLogin(){
 			$('.collapsible').collapsible();
 			$('.modal').modal();
 			$(".button-collapse").sideNav();
-			init();
+			//init();
 		});
 		initConfiguracao();
 		
@@ -321,6 +320,62 @@ function initConfiguracao(){
 		 		$('.button-collapse').sideNav('hide');
 		 		logout();
 		 	});
+
+		 	//salva configuração de fila
+		 	document.getElementById("salvaConfiguracaoFila").addEventListener("click",function(){
+		 		var opcao = 0;
+		 		if(document.getElementById("fila1").checked == true){
+		 			opcao = 0;
+		 		}else{
+		 			opcao = 1;
+		 		}
+		 		var qtdefila1 = document.getElementById("qtdeFila1").value;
+		 		var qtdefila2 = document.getElementById("qtdeFila2").value;
+		 		var qtdeMaxima = document.getElementById("qtdemaxima").value;
+		 		$.ajax({
+		 			type:"POST",
+		 			url:"php/configuracaoFila.php",
+		 			type: "POST",             
+		 			data: {"tipofila":opcao,"qtdeFila1":qtdefila1,"qtdeFila2":qtdefila2,"qtdeMaxima":qtdeMaxima}, 
+		 			success: function(data) {
+		 				alert("Tipo de fila Alterada");
+		 				console.log(data);
+		 			}
+		 		});
+		 	});
+		 	// Habilita o painel
+		 	document.getElementById("painelConfigFila").addEventListener("click",function(){
+		 		document.getElementById("configFila").style.display = "block";
+		 		document.getElementById("horarioFila").style.display = "none";
+		 	});
+		 	document.getElementById("painelHorarioFila").addEventListener("click",function(){
+		 		document.getElementById("horarioFila").style.display = "block";
+		 		document.getElementById("configFila").style.display = "none";
+		 	});
+		 	//salva o horario
+		 	document.getElementById("salvaHorario").addEventListener("click",function(){
+		 		var opcao = 0;
+		 		if(document.getElementById("tipofila1").checked == true){
+		 			opcao = 0;
+		 		}else{
+		 			opcao = 1;
+		 		}
+		 		var tempoInicial = document.getElementById("tempoInicial").value;
+		 		var tempoFinal = document.getElementById("tempoFinal").value;
+
+		 		console.log(opcao+" "+tempoInicial+" - "+tempoFinal);
+		 		$.ajax({
+		 			type:"POST",
+		 			url:"php/salvaControle.php",
+		 			type: "POST",             
+		 			data: {"opcao":opcao,"tempoInicial":tempoInicial,"tempoFinal":tempoFinal}, 
+		 			success: function(data) {
+		 				var lista = JSON.parse(data);
+		 				mostraHorariosFila(lista);
+		 			}
+		 		});
+		 	});
+		 	controleFila();
 
 		 });
 	request.fail(function (jqXHR, textStatus, errorThrown){
@@ -386,8 +441,51 @@ function abrirConfiguracao(){
 
 
 }
-function desativar(){
-	document.getElementById("configuracao").style.display = "none";
-	document.getElementById("container").style.display = "none";
-}
+	function desativar(){
+		document.getElementById("configuracao").style.display = "none";
+		document.getElementById("container").style.display = "none";
+	}
+	function controleFila(){
+		$.ajax({
+			type:"POST",
+			url:"php/listaControle.php",
+			type: "POST",              
+			success: function(data) {
+				var lista = JSON.parse(data);
+				mostraHorariosFila(lista);
+			}
+		});
+	}
+	function mostraHorariosFila(lista){
+		var controles = "";
+			for(var i = 0 ; i < lista.length; i++){
+				controles += '<tr>';
+				if(lista[i].tipofila == 0){
+					controles += '<td>Fila Principal</td>';
+				}else{
+					controles += '<td>Fila Alternativa</td>';
+				}
+				controles += '<td>'+lista[i].tempoInicial+'</td>';
+				controles += '<td>'+lista[i].tempoFinal+'</td>';
+				controles += '<td><a class="removeHorario" id="'+lista[i].idcontrole+'" href="#">X</a></td>';
+				controles += '</tr>';
+			}
+			document.getElementById("listaControle").innerHTML = controles;
+			$(".removeHorario").click(function(){
+				removeHorario(this.id);
+			});
+	}
+
+	function removeHorario(id){
+		$.ajax({
+			type:"POST",
+			url:"php/removeHorario.php",
+			type: "POST", 
+			data:{"id":id},             
+			success: function(data) {
+				var lista = JSON.parse(data);
+				mostraHorariosFila(lista);
+			}
+		})
+	}
 }

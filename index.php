@@ -15,7 +15,7 @@
 	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
 	<script src="js/jquery-ui.js"></script>
 	<script src="materialize/js/materialize.min.js"></script>
-	<script src="js/function.js"></script>
+	<!-- <script src="js/function.js"></script> -->
 	<script src="js/login.js" type="text/javascript"></script>
 </head>
 <body onload="initLogin()">
@@ -80,10 +80,95 @@
 			<div class="col s12 l12" id="conteudo_painel">
 				<div id="home" class="col s12">HOME</div>
 				<div id="opcoes" class="col s12">
-					<!-- Opçõe de Cadastro -->
 					<div class="row">
-						<div class="col s12 l2">
-							
+						<div class="col s2">
+							<ul class="collapsible" data-collapsible="accordion">
+								<li id="painelConfigFila">
+									<div class="collapsible-header"><i class="material-icons">settings</i>Configuração de Fila</div>
+								</li>
+								<li id="painelHorarioFila">
+									<div class="collapsible-header"><i class="material-icons">access_time</i>Horario de Fila</div>
+								</li>
+							</ul>
+						</div>
+						<div class="col s2"></div>
+						<!-- Configuração de Fila -->
+						<div class="col s12 l4" id="configFila">
+							<div class="row">
+								<div class="input-field col s5">
+									<input id="qtdeFila1" type="number" class="validate">
+									<label for="disabled">Quantidade Taxi Fila 1</label>
+								</div>
+								<div class="input-field col s1"></div>
+								<div class="input-field col s5">
+									<input id="qtdeFila2" type="number" class="validate">
+									<label for="disabled">Quantidade Taxi Fila 2</label>
+								</div>
+							</div>
+							<div class="input-field col s11">
+								<input id="qtdemaxima" type="number" class="validate">
+								<label for="disabled">Quantidade Maxima de Taxi</label>
+							</div>
+							<div class="row">
+								<div class="col 5">
+									<input name="opcaofila" type="radio" id="fila1" />
+									<label for="fila1">Fila Principal</label>
+								</div>
+								<div class="input-field col s1"></div>
+								<div class="col 5">
+									<input name="opcaofila" type="radio" id="fila2" />
+									<label for="fila2">Fila Alternativa</label>
+								</div>
+							</div>
+							<div class="row" style="margin-top:10px;">
+								<div class="col s4"></div>
+								<button class="col s4 btn" id="salvaConfiguracaoFila">Salva Alteracao</button>
+								<div class="col s4"></div>
+							</div>
+						</div>
+						<!-- Configuração de horario -->
+						<div class="col s12 l4" id="horarioFila">
+							<div class="row">
+								<div class="input-field col s3">
+									<input id="tempoInicial" type="time" class="validate">
+								</div>
+								<div class="input-field col s1">
+									<label>A</label>
+								</div>
+								<div class="input-field col s3">
+									<input id="tempoFinal" type="time" class="validate">
+								</div>
+							</div>
+							<div class="row">
+								<div class="col 5">
+									<input name="opcaofila" type="radio" id="tipofila1" />
+									<label for="tipofila1">Fila Principal</label>
+								</div>
+								<div class="input-field col s1"></div>
+								<div class="col 5">
+									<input name="opcaofila" type="radio" id="tipofila2" />
+									<label for="tipofila2">Fila Alternativa</label>
+								</div>
+							</div>
+							<div class="row" style="margin-top:10px;">
+								<div class="col s4"></div>
+								<button class="col s4 btn" id="salvaHorario">Salva</button>
+								<div class="col s4"></div>
+							</div>
+							<table>
+								<thead>
+									<tr>
+										<th>Tipo Fila</th>
+										<th>Horario Inicial</th>
+										<th>Horario Final</th>
+										<th><th>
+									</tr>
+								</thead>
+
+								<tbody id="listaControle">
+									
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</div>

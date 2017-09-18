@@ -2,19 +2,19 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<title>Tela de Espera</title>
-	<!-- Compiled and minified CSS -->
-	<link rel="stylesheet" href="materialize/css/materialize.min.css">
-	<!-- Compiled and minified JavaScript -->
-	<link rel="stylesheet" href="css/style.css" />
-	<link rel="stylesheet" href="css/infraero.css" />
-	<link href="css/icon.css" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="css/font_roboto.css"/>
-	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
-	<script src="materialize/js/materialize.min.js"></script>
-	<script src="js/function.js"></script>
-	<script src="js/infraero.js"></script>
+<!-- Compiled and minified CSS -->
+  	<link rel="stylesheet" href="materialize/css/materialize.min.css">
+  	<!-- Compiled and minified JavaScript -->
+  	<link rel="stylesheet" href="css/style.css" />
+  	<link rel="stylesheet" href="css/infraero.css" />
+  	<link href="css/icon.css" rel="stylesheet">
+  	<link rel="stylesheet" type="text/css" href="css/font_roboto.css"/>
+  	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+  	<script src="materialize/js/materialize.min.js"></script>
+  	<script src="js/function.js"></script>
+  	<script src="js/infraero.js"></script>
 </head>
 <body onload="init();">
 	<div class="container">
@@ -39,17 +39,9 @@
 					<ul class="fila" id="fila_posto3">
 					</ul>
 				</div>
-				<div class="col s12 l6 subcontainer " style="padding:0px 30px;">
-					<ul class="fila" id="plantao">
-					</ul>
-				</div>
-				<div class="col s12 l6 subcontainer " style="padding:0px 30px;">
-					<ul class="fila" id="biqueira">
-					</ul>
-				</div>
 			</div>
 		</div>
-		<div class="observacao" id="observacao" style="border:none;">
+		<div class="observacao" style="border:none;">
 			<ul id="fila_posto3"> 
 				<li><i class="small material-icons presente">crop_free</i> Presente</li>
 				<li><i class="small material-icons ausente">crop_free</i> Ausente</li>
@@ -57,7 +49,7 @@
 			</ul>
 		</div>
 		<audio  id="audio">
-			<source src="assets/sons/alert.mp3" type="audio/mp3" />
+	   		<source src="assets/sons/alert.mp3" type="audio/mp3" />
 		</audio>
 	</div>
 	<div class="row">

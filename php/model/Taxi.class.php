@@ -3,6 +3,7 @@ class Taxi{
     var $numero;
     var $status;
     var $dispositivo;
+    var $tipo;
 
     function setNumero($numero){
     	$this->numero = $numero;
@@ -21,6 +22,12 @@ class Taxi{
     }
     function getDispositivo(){
         return $this->dispositivo;
+    }
+    function setTipo($tipo){
+        $this->tipo = $tipo;
+    }
+    function getTipo(){
+        return $this->tipo;
     }
 
 }

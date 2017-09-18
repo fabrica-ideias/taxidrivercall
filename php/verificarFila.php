@@ -1,59 +1,29 @@
 <?php 
 	session_start();
-	
+	require_once("conexao.php");
+	date_default_timezone_set('America/Sao_Paulo');
 	if (file_exists('arquivo.json')) {
 		$fila = json_decode(file_get_contents('arquivo.json'));
-		echo  json_encode($fila);	
-	}else{
-		require_once("model/Taxi.class.php");
-		$fila = array();
-		
-		$status = array("presente","ausente","problema","");
-		for ($i=0; $i < 100; $i++) { 
-			$random_keys=array_rand($status,2);
-			$taxi = new Taxi();
-			$taxi->setNumero(($i + 1));
-			$taxi->setStatus("ausente");
-			$taxi->setDispositivo("");
-			$fila[] = $taxi;
-		}
-		$posto1 = [];
-		$posto2 = [];
-		$posto3 = [];
-		$problema = [];
-		for ($i=0; $i < count($fila); $i++) { 
-			if(count($posto1) < 6){
-				if($fila[$i]->status == "presente"){
-					$posto1[] = $fila[$i];
-				}else{
-					if($fila[$i]->status == "problema"){
-						$problema[] = $fila[$i];
-					}else{
-						$posto3[] = $fila[$i];
-					}
-				}
-			}elseif(count($posto2) < 6 && count($posto1) == 6){
-				if( $fila[$i]->status == "presente"){
-					$posto2[] = $fila[$i];
-				}else{
-					if($fila[$i]->status == "problema"){
-						$problema[] = $fila[$i];
-					}else{
-						$posto3[] = $fila[$i];
-					}
-				}
-			}else if(count($posto2) == 6 & count($posto1) == 6){
-				if($fila[$i]->status == "presente" || $fila[$i]->status == "ausente" ){
-					$posto3[] = $fila[$i];
-				}else{
-					$problema[] = $fila[$i];
+		$result = mysqli_query($con,"SELECT * FROM du31xu75psg7waby.Controle_Fila");
+		if(mysqli_num_rows($result) > 0){
+			$tempo = strtotime(date("H:i:s"));
+			$opcao = 0;
+			while($dado = mysqli_fetch_array($result)){
+				$t1 = strtotime($dado['tempoInicial']);
+				$t2 = strtotime($dado['tempoFinal']);
+				
+				if(($t1 <= $tempo) && ($tempo <=$t2)) {
+					$opcao = $dado['tipofila'];
 				}
 			}
+			$fila->alteracao = rand(0,100); 
+			$fila->opcaofila = $opcao;
 		}
-		$ordem = array("posto1" => $posto1 , "posto2" => $posto2, "posto3" => $posto3,"problemas" =>$problema,"id"=>1,"alteracao"=>1);
-		$fp = fopen('arquivo.json', 'w');
-		fwrite($fp, json_encode($ordem));
-		fclose($fp);
-		echo json_encode($ordem);
+		echo json_encode($fila);
+	}else{
+		require_once("model/Taxi.class.php");
+		require_once("model/fachada.class.php");
+		$fachada = new Fachada();
+		$fachada->configuraFila();
 	}
 ?>
