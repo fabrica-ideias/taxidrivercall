@@ -4,6 +4,7 @@ class Taxi{
     var $status;
     var $dispositivo;
     var $tipo;
+    var $qtdeviajem;
 
     function setNumero($numero){
     	$this->numero = $numero;
@@ -29,6 +30,11 @@ class Taxi{
     function getTipo(){
         return $this->tipo;
     }
-
+    function setQtdeViajem($qtdeviajem){
+        $this->qtdeviajem = $qtdeviajem;
+    }
+    function getQtdeViajem($qtdeviajem){
+        return $this->qtdeviajem;
+    }
 }
 ?>

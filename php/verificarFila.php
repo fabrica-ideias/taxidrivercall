@@ -4,7 +4,7 @@
 	date_default_timezone_set('America/Sao_Paulo');
 	if (file_exists('arquivo.json')) {
 		$fila = json_decode(file_get_contents('arquivo.json'));
-		$result = mysqli_query($con,"SELECT * FROM du31xu75psg7waby.Controle_Fila");
+		$result = mysqli_query($con,"SELECT * FROM Controle_Fila");
 		if(mysqli_num_rows($result) > 0){
 			$tempo = strtotime(date("H:i:s"));
 			$opcao = 0;

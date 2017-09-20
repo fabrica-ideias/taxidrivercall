@@ -6,7 +6,7 @@ class Fachada{
 		//Usuario
 	function getUsuarioPorId($idusuario){
 		include("conexao.php");
-		$result = mysqli_query($con,"SELECT * FROM du31xu75psg7waby.Usuario where idusuario='$idusuario'");
+		$result = mysqli_query($con,"SELECT * FROM Usuario where idusuario='$idusuario'");
 		if( mysqli_num_rows($result) > 0){
 			$dados =  mysqli_fetch_array($result);
 			$usuario = new Usuario();
@@ -17,7 +17,7 @@ class Fachada{
 	}
 	function getConfiguracao(){
 		include("conexao.php");
-		$result = mysqli_query($con,"SELECT * FROM du31xu75psg7waby.Configuracao where idconfig='1'");
+		$result = mysqli_query($con,"SELECT * FROM Configuracao where idconfig='1'");
 		if( mysqli_num_rows($result) > 0){
 			$dados =  mysqli_fetch_array($result);
 			return json_encode($dados);
@@ -26,7 +26,7 @@ class Fachada{
 	}
 	function getConfiguracaoFila(){
 		include("conexao.php");
-		$result = mysqli_query($con,"SELECT * FROM du31xu75psg7waby.Configuracao_Fila where idconfig='1'");
+		$result = mysqli_query($con,"SELECT * FROM Configuracao_Fila where idconfig='1'");
 		if( mysqli_num_rows($result) > 0){
 			$dados =  mysqli_fetch_array($result);
 			return json_encode($dados);
@@ -36,7 +36,7 @@ class Fachada{
 
 	function getUsuarioEmail($email){
 		include("conexao.php");
-		$result = mysqli_query($con,"SELECT * FROM du31xu75psg7waby.Usuario WHERE email='$email'");
+		$result = mysqli_query($con,"SELECT * FROM Usuario WHERE email='$email'");
 		if(mysqli_num_rows($result)>0){
 			$dados =  mysqli_fetch_array($result);
 			echo json_encode($dados);
@@ -47,14 +47,14 @@ class Fachada{
 
 	function salvaUsuario($usuario){
 		include("conexao.php");
-		mysqli_query($con,"insert into du31xu75psg7waby.Usuario (nome,email,senha,perfil) values ('".$usuario->getNome()."','".$usuario->getEmail()."','".$usuario->getSenha()."','".$usuario->getPerfil()."')");
+		mysqli_query($con,"INSERT INTO Usuario (nome,email,senha,perfil) values ('".$usuario->getNome()."','".$usuario->getEmail()."','".$usuario->getSenha()."','".$usuario->getPerfil()."')");
 		$fachada = new Fachada();
 		$fachada->startSession('false','idusuario',mysqli_insert_id($con));
 		echo "0";
 	}
 	function salvaConfiguracao($config){
 		include("conexao.php");
-		mysqli_query($con,"UPDATE du31xu75psg7waby.Configuracao SET cor_fundo = '$config->cor_fundo', cor_conteudo = '$config->cor_conteudo', cor_menu = '$config->cor_menu'  WHERE idconfig='1'");
+		mysqli_query($con,"UPDATE Configuracao SET cor_fundo = '$config->cor_fundo', cor_conteudo = '$config->cor_conteudo', cor_menu = '$config->cor_menu'  WHERE idconfig='1'");
 		echo "ok";
 	}
 
@@ -65,28 +65,40 @@ class Fachada{
 			setcookie($session, $_SESSION[$session], PHP_INT_MAX);
 		}
 	}
-	function alteraStatusTaxi($dispositivo,$status){
+	function alteraStatusTaxi($dispositivo){
 		$taxis = json_decode(file_get_contents('arquivo.json'));
 		foreach ($taxis->posto1 as $taxi) {
 			if($taxi->dispositivo == $dispositivo){
-				$taxi->status = $status;
+				if($taxi->status == "presente"){
+					$taxi->status = "ausente";
+				}else{
+					$taxi->status = "presente";
+				}
 				break;
 			}
 		}
 		foreach ($taxis->posto2 as $taxi) {
 			if($taxi->dispositivo == $dispositivo){
-				$taxi->status = $status;
+				if($taxi->status == "presente"){
+					$taxi->status = "ausente";
+				}else{
+					$taxi->status = "presente";
+				}
 				break;
 			}
 		}
 		foreach ($taxis->posto3 as $taxi) {
 			if($taxi->dispositivo == $dispositivo){
-				$taxi->status = $status;
+				if($taxi->status == "presente"){
+					$taxi->status = "ausente";
+				}else{
+					$taxi->status = "presente";
+				}
 				break;
 			}
 		}
 
-		$taxis->alteracao +=  1;
+		$taxis->alteracao =  rand(0,100); ;
 		$fp = fopen('arquivo.json', 'w');
 		fwrite($fp, json_encode($taxis));
 		fclose($fp);	
@@ -162,16 +174,19 @@ class Fachada{
 		$fachada = new Fachada();
 		$confFila = json_decode($fachada->getConfiguracaoFila());
 		$fila = array();
-		$status = array("presente","ausente","problema","");
-		$tipo = array("plantao","biqueira","plantao");
+		$status = "presente";
 		for ($i=0; $i < $confFila->qtdemaxima; $i++) { 
 			$random_keys=array_rand($status,2);
-			$random_tipo=array_rand($tipo,2);
 			$taxi = new Taxi();
 			$taxi->setNumero(($i + 1));
-			$taxi->setStatus($status[$random_keys[0]]);
-			$taxi->setTipo($tipo[$random_tipo[0]]);
+			$taxi->setStatus($status);
+			if($i%2 == 0){
+				$taxi->setTipo("plantao");
+			}else{
+				$taxi->setTipo("biqueira");
+			}
 			$taxi->setDispositivo("");
+			$taxi->setQtdeViajem(0);
 			$fila[] = $taxi;
 		}
 		$posto1 = [];
@@ -209,11 +224,28 @@ class Fachada{
 		}
 		$alteracao = rand(0,100); 
 		$ordem = array("posto1" => $posto1 , "posto2" => $posto2, "posto3" => $posto3,"problemas" =>$problema,"id"=>1,"alteracao"=>$alteracao,
-			"opcaofila"=>$confFila->tipo_fila,"plantao"=> 0, "biqueira"=>0);
-		$fp = fopen('arquivo.json', 'w');
+			"opcaofila"=>$confFila->tipo_fila,"plantao"=> 0, "biqueira"=>0,"dia",date("d-m-Y"));
+		$fp = fopen('principal.json', 'w');
 		fwrite($fp, json_encode($ordem));
 		fclose($fp);
 		echo json_encode($ordem);
+	}
+
+	function getHorarioFila(){
+		include("conexao.php");
+		$result = mysqli_query($con,"SELECT * FROM Controle_Fila");
+		$opcao = 0;
+		if(mysqli_num_rows($result) > 0){
+			$tempo = strtotime(date("H:i:s"));
+			while($dado = mysqli_fetch_array($result)){
+				$t1 = strtotime($dado['tempoInicial']);
+				$t2 = strtotime($dado['tempoFinal']);	
+				if(($t1 <= $tempo) && ($tempo <=$t2)) {
+					$opcao = $dado['tipofila'];
+				}
+			}
+		}
+		return $opcao;
 	}
 }
 ?>

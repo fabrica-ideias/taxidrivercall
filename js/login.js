@@ -376,7 +376,7 @@ function initConfiguracao(){
 		 		});
 		 	});
 		 	controleFila();
-
+		 	consultaConfiguracaoFila();
 		 });
 	request.fail(function (jqXHR, textStatus, errorThrown){
 		console.error(
@@ -474,6 +474,25 @@ function abrirConfiguracao(){
 			$(".removeHorario").click(function(){
 				removeHorario(this.id);
 			});
+	}
+
+	function consultaConfiguracaoFila(){
+		$.ajax({
+ 			type:"POST",
+ 			url:"php/getConfiguracaoFila.php",
+ 			type: "POST",        
+ 			success: function(data) {
+ 				var config = JSON.parse(data);
+				if(config.tipo_fila == 0){
+					document.getElementById("fila1").checked = true;
+				}else{
+					document.getElementById("fila2").checked = true;
+				}
+ 				document.getElementById("qtdeFila1").value = config.qtde_taxi_fila1;
+		 		document.getElementById("qtdeFila2").value = config.qtde_taxi_fila2;
+		 		document.getElementById("qtdemaxima").value = config.qtdemaxima;
+ 			}
+ 		});
 	}
 
 	function removeHorario(id){

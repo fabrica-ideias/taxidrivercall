@@ -1,13 +1,18 @@
 <?php
 session_start();
 require_once("model/Taxi.class.php");
+require_once("model/fachada.class.php");
 if (file_exists('arquivo.json')) {
 	$fila = json_decode(file_get_contents('arquivo.json'));
 	$posto1 = [];
 	$posto2 = [];
 	$posto3 = [];
 	$problema = [];
-	if($fila->opcaofila == 0){
+	$fachada = new fachada();
+
+	$opcao = $fachada->getHorarioFila();
+
+	if($opcao == 0){
 		$paraPosto3 = $fila->posto1[0];
 		$paraPosto1 = $fila->posto2[0];
 		$paraPosto2  = null;
@@ -44,8 +49,12 @@ if (file_exists('arquivo.json')) {
 		fclose($fp);	
 		echo json_encode($fila);
 	}else{
-		$paraPosto3 = $fila->posto1[0];
-		$paraPosto1 = null;
+
+		$paraPosto3 = null;
+		if(count($fila->posto1)){
+			$paraPosto3 = $fila->posto1[0];
+		}
+		$paraPosto1 = $fila->posto2[0];
 		$paraPosto2  = null;
 		//Anda o posto 1
 		for ($i=0; $i < count($fila->posto1) -1 ; $i++) { 
@@ -79,7 +88,8 @@ if (file_exists('arquivo.json')) {
 				$fila->posto3[$i] = $fila->posto3[$i+1];
 			}
 		}
-		if($paraPosto3  != null){
+		if(!is_null($paraPosto3)){
+			$paraPosto3->qtdeviajem += 1;
 			$fila->posto3[count($fila->posto3)-1] = $paraPosto3 ;
 		}
 		if($paraPosto2 != null){
@@ -93,7 +103,7 @@ if (file_exists('arquivo.json')) {
 			$fila->plantao = 0;
 			$fila->biqueira = 0;
 		}
-		$fila->id +=  1;
+		$fila->id =   rand(0,100);
 		$fp = fopen('arquivo.json', 'w');
 		fwrite($fp, json_encode($fila));
 		fclose($fp);	

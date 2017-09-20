@@ -81,7 +81,7 @@
 				<div id="home" class="col s12">HOME</div>
 				<div id="opcoes" class="col s12">
 					<div class="row">
-						<div class="col s2">
+						<div class="col s12 l2">
 							<ul class="collapsible" data-collapsible="accordion">
 								<li id="painelConfigFila">
 									<div class="collapsible-header"><i class="material-icons">settings</i>Configuração de Fila</div>
@@ -96,34 +96,40 @@
 						<div class="col s12 l4" id="configFila">
 							<div class="row">
 								<div class="input-field col s5">
-									<input id="qtdeFila1" type="number" class="validate">
-									<label for="disabled">Quantidade Taxi Fila 1</label>
+									<input id="qtdeFila1" placeholder=" "  type="number" class="validate">
+									<label for="qtdeFila1" class="active">Quantidade Taxi Fila 1</label>
 								</div>
 								<div class="input-field col s1"></div>
 								<div class="input-field col s5">
-									<input id="qtdeFila2" type="number" class="validate">
-									<label for="disabled">Quantidade Taxi Fila 2</label>
+									<input id="qtdeFila2" placeholder=" " type="number" class="validate">
+									<label for="qtdeFila2" class="active">Quantidade Taxi Fila 2</label>
 								</div>
 							</div>
 							<div class="input-field col s11">
-								<input id="qtdemaxima" type="number" class="validate">
-								<label for="disabled">Quantidade Maxima de Taxi</label>
+								<input id="qtdemaxima" type="number" placeholder=" "  class="validate">
+								<label for="disabled" class="active">Quantidade Maxima de Taxi</label>
 							</div>
 							<div class="row">
-								<div class="col 5">
-									<input name="opcaofila" type="radio" id="fila1" />
-									<label for="fila1">Fila Principal</label>
+								<div class="input-field col s2">
+									<p>Presente</p><input id="corPresente" type="color">
 								</div>
-								<div class="input-field col s1"></div>
-								<div class="col 5">
-									<input name="opcaofila" type="radio" id="fila2" />
-									<label for="fila2">Fila Alternativa</label>
+								<div class="input-field col s2">
+									<p>Ausente</p><input id="corAusente" type="color">
+								</div>
+								<div class="input-field col s2">
+									<p>Problema</p><input id="corProblema" type="color">
+								</div>
+								<div class="input-field col s2">
+									<p>Plantão</p><input id="corPlantao" type="color">
+								</div>
+								<div class="input-field col s2">
+									<p>Biqueira</p><input id="corBiqueira" type="color">
 								</div>
 							</div>
 							<div class="row" style="margin-top:10px;">
-								<div class="col s4"></div>
-								<button class="col s4 btn" id="salvaConfiguracaoFila">Salva Alteracao</button>
-								<div class="col s4"></div>
+								<div class="col l4"></div>
+								<button class="col s12 l4 btn" id="salvaConfiguracaoFila">Salva Alteracao</button>
+								<div class="col l4"></div>
 							</div>
 						</div>
 						<!-- Configuração de horario -->
@@ -151,9 +157,9 @@
 								</div>
 							</div>
 							<div class="row" style="margin-top:10px;">
-								<div class="col s4"></div>
-								<button class="col s4 btn" id="salvaHorario">Salva</button>
-								<div class="col s4"></div>
+								<div class="col l4"></div>
+								<button class="col s12 l4 btn" id="salvaHorario">Salva</button>
+								<div class="col l4"></div>
 							</div>
 							<table>
 								<thead>
@@ -162,48 +168,48 @@
 										<th>Horario Inicial</th>
 										<th>Horario Final</th>
 										<th><th>
-									</tr>
-								</thead>
+										</tr>
+									</thead>
 
-								<tbody id="listaControle">
-									
-								</tbody>
-							</table>
+									<tbody id="listaControle">
+										
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row" >
+				<div class="col s12">
+					<div class="configuracao" id="configuracao">
+						<a id="cancelar">X</a>
+						<div class="col s4">
+							<p>Cor do Menu</p><input type="color" id="cor_menu"/>
+							<p>Cor do Painel de Conteudo</p><input type="color" id="cor_conteudo"/>
+							<p>Cor do Fundo</p><input type="color" id="cor_fundo"/>
+						</div>
+						<div class="col s8 l4">
+							<form action="#">
+								<div class="file-field input-field">
+									<div class="btn">
+										<span>File</span>
+										<input type="file" accept="image/*" class="fileImg" name="file" id="file">
+									</div>
+									<div class="file-path-wrapper">
+										<input type="file" accept="image/*" class="fileImg" name="fileLogo" id="fileLogo">
+										<input class="file-path validate" type="text" placeholder="Upload one or more files">
+									</div>
+								</div>
+							</form>
+							<div class="col s2 l5"></div>
+							<button class="col s8 l2 btn" id="btnSalvaConfig">Salvar</button>
+							<div class="col s2 l5"></div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="row" >
-			<div class="col s12">
-				<div class="configuracao" id="configuracao">
-					<a id="cancelar">X</a>
-					<div class="col s4">
-						<p>Cor do Menu</p><input type="color" id="cor_menu"/>
-						<p>Cor do Painel de Conteudo</p><input type="color" id="cor_conteudo"/>
-						<p>Cor do Fundo</p><input type="color" id="cor_fundo"/>
-					</div>
-					<div class="col s8 l4">
-						<form action="#">
-							<div class="file-field input-field">
-								<div class="btn">
-									<span>File</span>
-									<input type="file" accept="image/*" class="fileImg" name="file" id="file">
-								</div>
-								<div class="file-path-wrapper">
-									<input type="file" accept="image/*" class="fileImg" name="fileLogo" id="fileLogo">
-									<input class="file-path validate" type="text" placeholder="Upload one or more files">
-								</div>
-							</div>
-						</form>
-						<div class="col s2 l5"></div>
-						<button class="col s8 l2 btn" id="btnSalvaConfig">Salvar</button>
-						<div class="col s2 l5"></div>
-					</div>
-				</div>
-			</div>
-		</div>
 	</div>
-</div>
 </body> 
 </html>

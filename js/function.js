@@ -9,6 +9,7 @@ function init(){
 			type: "post"
 		});
 		request.done(function (response, textStatus, jqXHR){
+			JSON.parse(response);
 			result = JSON.parse(response);
 			if(id != result.id){
 				id = result.id;
@@ -59,12 +60,9 @@ function init(){
 			}else{
 				preencherFilas(filaPosto2,"saida_posto2","fila_posto2",false,1);
 			}
-			
-
 			preencherFilas(filaPosto3,"","fila_posto3",true,0);
 			document.getElementById("plantao").innerHTML = "";
 			document.getElementById("biqueira").innerHTML = "";
-			document.getElementById("observacao").innerHTML = '<ul id="fila_posto3"><li><i class="small material-icons presente">crop_free</i> Presente</li><li><i class="small material-icons ausente">crop_free</i> Ausente</li><li><i class="small material-icons problema">crop_free</i> Parado</li></ul>';
 		}else{
 			//opção de fila 2
 			for (var i = 0; i < taxis.posto2.length; i++) {
@@ -98,9 +96,9 @@ function init(){
 		for (var i = 0; i < taxis.length; i++) {
 			if(taxis[i] != null){
 				if(taxis[i].tipo == "plantao"){
-					plantao +="<li class='"+taxis[i].tipo+"'><p class='"+taxis[i].status+"_taxi'>"+taxis[i].numero+"</p></li>";
+					plantao +="<li class='"+taxis[i].status+" "+taxis[i].tipo+"'><p class='"+taxis[i].status+"_taxi'>"+taxis[i].numero+"</p></li>";
 				}else{
-					biqueira += "<li class='"+taxis[i].tipo+"'><p class='"+taxis[i].status+"_taxi'>"+taxis[i].numero+"</p></li>";
+					biqueira += "<li class='"+taxis[i].status+" "+taxis[i].tipo+"'><p class='"+taxis[i].status+"_taxi'>"+taxis[i].numero+"</p></li>";
 				}
 				
 			}
@@ -108,7 +106,6 @@ function init(){
 		document.getElementById("fila_posto3").innerHTML = "";
 		document.getElementById("plantao").innerHTML = plantao;
 		document.getElementById("biqueira").innerHTML = biqueira;
-		document.getElementById("observacao").innerHTML = '<ul id="fila_posto3"> <li><i class="small material-icons plantao">crop_free</i> Plantao</li><li><i class="small material-icons biqueira">crop_free</i> Biqueira</li></ul>';
 	}
 	function preencherFilas(taxis,saida,lista,restante,tipofila){
 		var fila = "";
@@ -121,12 +118,12 @@ function init(){
 				}else{
 					if(tipofila == 0){
 						if(restante == false){
-							fila += "<li style='width: 10%;color: #fff;background: #3aa13d;text-align: center;text-shadow: 2px 2px 5px #000;border-radius: 4px;box-shadow: 5px 5px 5px #b2b0b0;margin-bottom: 20px;' class='"+taxis[i].status+"'>"+taxis[i].numero+"</li>";
+							fila += "<li class='"+taxis[i].status+" "+taxis[i].tipo+"'  style='width: 10%;background-color: #3aa13d;text-align: center;text-shadow: 2px 2px 5px #000;border-radius: 4px;box-shadow: 5px 5px 5px #b2b0b0;margin-bottom: 20px;' class='"+taxis[i].status+"'>"+taxis[i].numero+"</li>";
 						}else{
-							fila += "<li class='"+taxis[i].status+"'>"+taxis[i].numero+"</li>";
+							fila += "<li class='"+taxis[i].status+" "+taxis[i].tipo+"'>"+taxis[i].numero+"<label class='voltas'>"+taxis[i].qtdeviajem+"</label></li>";
 						}
 					}else{
-							fila += "<li id='listafila2' class='"+taxis[i].status+"'>"+taxis[i].numero+"</li>";
+							fila += "<li id='listafila2' class='"+taxis[i].status+" "+taxis[i].tipo+"'>"+taxis[i].numero+"</li>";
 					}
 				}
 			}

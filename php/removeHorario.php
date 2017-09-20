@@ -5,9 +5,9 @@
 
 	$id = $_POST['id'];
 
-	mysqli_query($con,"DELETE FROM du31xu75psg7waby.Controle_Fila WHERE idcontrole='$id'");
+	mysqli_query($con,"DELETE FROM Controle_Fila WHERE idcontrole='$id'");
 	
-	$result = mysqli_query($con,"SELECT * FROM du31xu75psg7waby.Controle_Fila");
+	$result = mysqli_query($con,"SELECT * FROM Controle_Fila");
 	$controles = array();
 	while($dado = mysqli_fetch_array($result)){
 		$controles[] = $dado;

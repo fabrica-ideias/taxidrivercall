@@ -3,7 +3,7 @@
 	require_once("model/fachada.class.php");
 	require_once("conexao.php");
 
-	$result = mysqli_query($con,"SELECT * FROM du31xu75psg7waby.Controle_Fila");
+	$result = mysqli_query($con,"SELECT * FROM Controle_Fila");
 	$controles = array();
 	while($dado = mysqli_fetch_array($result)){
 		$controles[] = $dado;

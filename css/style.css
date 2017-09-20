@@ -57,7 +57,7 @@ body{
 	text-shadow: 2px 2px 5px #000;
 }
 .dafault{
-	background-color: #3a4ebe;	
+	background-color: #787878;	
 	text-shadow: 2px 2px 5px #000;
 }
 .ausente{
@@ -69,15 +69,22 @@ body{
 	text-shadow: 2px 2px 5px #000;
 }
 .plantao{
-	background-color: #2d9ee4;	
-	text-shadow: 2px 2px 5px #000;
+	color:#37b0f3 !important;	
+	text-shadow: 2px 2px 5px #494848 !important;
 }
 .biqueira{
-	background-color:#064f86;
-	text-shadow: 2px 2px 5px #000;
+	color:#860606 !important;
+	text-shadow: 2px 2px 5px #494848 !important;
 }
 .p{
 	font-size: 1.3em;
+}
+.voltas{
+	font-size: 0.75em;
+    float: right;
+    color: #fff;
+    margin-left: 0px;
+    margin-right: 10px;
 }
 td{
 	padding: 0px !important;
@@ -113,19 +120,15 @@ li.plantao,li.biqueira  {
 	margin-left:5px;
 }
 p.presente_taxi{
-	background-color: none;
-	color: #3aa13d;	
 	font-size: 1em;
 	text-shadow: 2px 2px 5px #000;
 }
 p.ausente_taxi{
 	font-size: 1em;
-	color: #e3f107;	
 	text-shadow: 2px 2px 5px #000;
 }
 p.problema_taxi{
 	font-size: 1em;
-	color:#b12c2c;
 	text-shadow: 2px 2px 5px #000;
 }
 /* (Optional) Apply a "closed-hand" cursor during drag operation. */

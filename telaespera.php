@@ -54,6 +54,8 @@
 				<li><i class="small material-icons presente">crop_free</i> Presente</li>
 				<li><i class="small material-icons ausente">crop_free</i> Ausente</li>
 				<li><i class="small material-icons problema">crop_free</i> Parado</li>
+				<li><i class="small material-icons default plantao">crop_free</i> Plantao</li>
+				<li><i class="small material-icons default biqueira">crop_free</i> Biqueira</li>
 			</ul>
 		</div>
 		<audio  id="audio">
