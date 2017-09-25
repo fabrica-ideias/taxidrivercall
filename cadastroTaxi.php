@@ -24,7 +24,7 @@
             <option value="" disabled selected>SELECIONE O BEACON</option>
             <?php 
             require_once("php/conexao.php");
-            $result = mysqli_query($con,"SELECT * FROM du31xu75psg7waby.Beacon ORDER BY nome");
+            $result = mysqli_query($con,"SELECT * FROM Beacon ORDER BY nome");
             while($row = mysqli_fetch_array($result)){
               echo "<option value='".$row['mac']."''>".strtoupper($row['nome'])."</option>";
             }

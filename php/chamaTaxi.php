@@ -33,8 +33,8 @@ if (file_exists('arquivo.json')) {
 				$fila->posto3[$i] = $fila->posto3[$i+1];
 			}
 		}
-		$paraPosto3->status = "ausente";
 		if($paraPosto3  != null){
+			$paraPosto3->qtdeviajem += 1;
 			$fila->posto3[count($fila->posto3)-1] = $paraPosto3 ;
 		}
 		if($paraPosto2 != null){

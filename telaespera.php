@@ -13,6 +13,7 @@
 	<link rel="stylesheet" type="text/css" href="css/font_roboto.css"/>
 	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
 	<script src="materialize/js/materialize.min.js"></script>
+	<script type="text/javascript" src="js/responsivevoice.js"></script>
 	<script src="js/function.js"></script>
 	<script src="js/infraero.js"></script>
 </head>

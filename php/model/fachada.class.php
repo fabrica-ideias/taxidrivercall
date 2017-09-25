@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once("model/Usuario.php");
 require_once("model/Configuracao.class.php");
 require_once("model/Taxi.class.php");
@@ -65,45 +65,30 @@ class Fachada{
 			setcookie($session, $_SESSION[$session], PHP_INT_MAX);
 		}
 	}
-	function alteraStatusTaxi($dispositivo){
+	function existBeacon($dispositivo){
+		$verificar = 0;
 		$taxis = json_decode(file_get_contents('arquivo.json'));
 		foreach ($taxis->posto1 as $taxi) {
 			if($taxi->dispositivo == $dispositivo){
-				if($taxi->status == "presente"){
-					$taxi->status = "ausente";
-				}else{
-					$taxi->status = "presente";
-				}
+				$verificar =	 1;
 				break;
 			}
 		}
 		foreach ($taxis->posto2 as $taxi) {
 			if($taxi->dispositivo == $dispositivo){
-				if($taxi->status == "presente"){
-					$taxi->status = "ausente";
-				}else{
-					$taxi->status = "presente";
-				}
+				$verificar = 1;
 				break;
 			}
 		}
 		foreach ($taxis->posto3 as $taxi) {
 			if($taxi->dispositivo == $dispositivo){
-				if($taxi->status == "presente"){
-					$taxi->status = "ausente";
-				}else{
-					$taxi->status = "presente";
-				}
+				$verificar = 1;
 				break;
 			}
 		}
-
-		$taxis->alteracao =  rand(0,100); ;
-		$fp = fopen('arquivo.json', 'w');
-		fwrite($fp, json_encode($taxis));
-		fclose($fp);	
-		echo json_encode($taxis);
+		return $verificar;
 	}
+
 	function alteraBeaconTaxi($numero,$dispositivo){
 		$taxis = json_decode(file_get_contents('arquivo.json'));
 		foreach ($taxis->posto1 as $taxi) {
@@ -176,10 +161,13 @@ class Fachada{
 		$fila = array();
 		$status = "presente";
 		for ($i=0; $i < $confFila->qtdemaxima; $i++) { 
-			$random_keys=array_rand($status,2);
 			$taxi = new Taxi();
 			$taxi->setNumero(($i + 1));
-			$taxi->setStatus($status);
+			if(($i+1)%7 == 0){
+				$taxi->setStatus("ausente");
+			}else{
+				$taxi->setStatus($status);
+			}
 			if($i%2 == 0){
 				$taxi->setTipo("plantao");
 			}else{
@@ -224,17 +212,16 @@ class Fachada{
 		}
 		$alteracao = rand(0,100); 
 		$ordem = array("posto1" => $posto1 , "posto2" => $posto2, "posto3" => $posto3,"problemas" =>$problema,"id"=>1,"alteracao"=>$alteracao,
-			"opcaofila"=>$confFila->tipo_fila,"plantao"=> 0, "biqueira"=>0,"dia",date("d-m-Y"));
+			"opcaofila"=>$confFila->tipo_fila,"plantao"=> 0, "biqueira"=>0,"dia"=>date("d-m-Y"));
 		$fp = fopen('principal.json', 'w');
 		fwrite($fp, json_encode($ordem));
 		fclose($fp);
-		echo json_encode($ordem);
 	}
 
 	function getHorarioFila(){
 		include("conexao.php");
 		$result = mysqli_query($con,"SELECT * FROM Controle_Fila");
-		$opcao = 0;
+		$opcao = 1;
 		if(mysqli_num_rows($result) > 0){
 			$tempo = strtotime(date("H:i:s"));
 			while($dado = mysqli_fetch_array($result)){
@@ -246,6 +233,46 @@ class Fachada{
 			}
 		}
 		return $opcao;
+	}
+
+	function iniciarFiladoDia(){
+		$taxis = json_decode(file_get_contents('principal.json'));
+		$ultimodia = strtotime($taxis->dia);
+		$hoje = strtotime(date('d-m-Y'));
+		if($ultimodia != $hoje || !file_exists('arquivo.json')){
+			$posto1 = [];
+			$posto2 = [];
+			$posto3 = [];
+			$problema = [];
+			foreach ($taxis->posto1 as $taxi) {
+				$posto1[] = $taxi;
+			}
+			foreach ($taxis->posto2 as $taxi) {
+				$posto2[] = $taxi;
+			}
+			foreach ($taxis->posto3 as $taxi) {
+				$posto3[] = $taxi;
+			}
+			foreach ($taxis->problemas as $taxi) {
+				$problema[] = $taxi;
+			}
+			$alteracao = rand(0,100);
+			$ordem = array("posto1" => $posto1 , "posto2" => $posto2, "posto3" => $posto3,"problemas" =>$problema,"id"=>1,"alteracao"=>$alteracao,
+				"opcaofila"=>1,"plantao"=> 0, "biqueira"=>0,"dia"=>date("d-m-Y"));
+			$fp = fopen('arquivo.json', 'w');
+			fwrite($fp, json_encode($ordem));
+			fclose($fp);
+			$this->AtualizaDataFila($taxis);
+		}
+	}
+
+	function AtualizaDataFila($fila){
+		$fila->dia = date('d-m-Y');
+		$ordem = array("posto1" => $fila->posto1 , "posto2" => $fila->posto2, "posto3" => $fila->posto3,"problemas" =>$fila->problemas,"id"=>1,"alteracao"=>$fila->alteracao,
+			"opcaofila"=>$fila->opcaofila,"plantao"=> 0, "biqueira"=>0,"dia"=>date("d-m-Y"));
+		$fp = fopen('principal.json', 'w');
+		fwrite($fp, json_encode($fila));
+		fclose($fp);
 	}
 }
 ?>

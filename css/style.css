@@ -50,9 +50,12 @@ body{
 	width: 5%;
 	text-align: center;
 	border:1px solid #000;
-	color:#fff;
 }
 .fila .presente,ul i.presente{
+	background-color: #3aa13d;	
+	text-shadow: 2px 2px 5px #000;
+}
+.presente{
 	background-color: #3aa13d;	
 	text-shadow: 2px 2px 5px #000;
 }
@@ -69,30 +72,30 @@ body{
 	text-shadow: 2px 2px 5px #000;
 }
 .plantao{
-	color:#37b0f3 !important;	
-	text-shadow: 2px 2px 5px #494848 !important;
+	color:#0918df;	
+	text-shadow: 2px 2px 5px #494848;
 }
 .biqueira{
-	color:#860606 !important;
-	text-shadow: 2px 2px 5px #494848 !important;
+	color:#860606;
+	text-shadow: 2px 2px 5px #494848;
 }
 .p{
 	font-size: 1.3em;
 }
 .voltas{
 	font-size: 0.75em;
-    float: right;
-    color: #fff;
-    margin-left: 0px;
-    margin-right: 10px;
+	float: right;
+	color: #fff;
+	margin-left: 0px;
+	margin-right: 10px;
 }
 td{
 	padding: 0px !important;
 	font-size: 1.5em;
 }
 li.plantao,li.biqueira  {
-    font-size: 1.5em;
-    width: 10%;
+	font-size: 1.5em;
+	width: 10%;
 }
 .row .col{
 	padding: 0px;
@@ -174,12 +177,28 @@ p.problema_taxi{
 #listafila2{
 	margin:1px;
 	width: 5%;
-	color: #fff;
-	background: #3aa13d;
 	text-align: center;
 	text-shadow: 2px 2px 5px #000;
 	border-radius: 4px;box-shadow: 5px 5px 5px #b2b0b0;
 	margin-bottom: 20px;
+}
+.blink{
+	background-color: #2b7bc7;
+	color: #fff;
+	border-radius: 4px;
+	animation-duration: 0.5s;
+	animation-name: blink;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
+	animation-timing-function: ease-in-out;
+}
+@keyframes blink{
+	from{
+		opacity: 1;
+	}
+	to{
+		opacity: 0;
+	}
 }
 @media screen and (max-width: 1024px){
 	.fila li{
@@ -188,7 +207,6 @@ p.problema_taxi{
 		text-align: center;
 		font-size: 1em;
 		border:1px solid #000;
-		color:#fff;
 	}
 	#listafila2{
 		width: 5%;
