@@ -5,6 +5,7 @@ require_once("model/fachada.class.php");
 date_default_timezone_set('America/Sao_Paulo');
 if (file_exists('principal.json')) {
     $fachada = new Fachada();
+    $fachada->iniciarFiladoDia();
     if (!file_exists('arquivo.json')) {
         $fachada->iniciarFiladoDia();
     }else{
@@ -36,7 +37,7 @@ if (file_exists('principal.json')) {
             $plantao_off = [];
             $biqueira = [];
             foreach ($inicio->posto3 as $taxi) {
-                if($taxi->tipo == "biqueira"){
+                if($taxi->tipo == "biqueira" && $taxi->qtdeviajem == 0){
                     $biqueira[] = $taxi;
                 }
             }
@@ -49,15 +50,16 @@ if (file_exists('principal.json')) {
                     }
                 }
             }
-            foreach ($plantao_on as $taxi) {
+            foreach ($plantao_off as $taxi) {
                 $posto3[] = $taxi;
             }
             foreach ($biqueira as $taxi) {
                 $posto3[] = $taxi;
             }
-            foreach ($plantao_off as $taxi) {
+            foreach ($plantao_on as $taxi) {
                 $posto3[] = $taxi;
             }
+            
             $fila->posto3 = $posto3;
             $fp = fopen('arquivo.json', 'w');
             fwrite($fp, json_encode($fila));

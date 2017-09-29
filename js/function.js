@@ -9,7 +9,8 @@ function init(){
 			url: "php/verificarFila.php",
 			type: "post"
 		});
-		request.done(function (response, textStatus, jqXHR){	
+		request.done(function (response, textStatus, jqXHR){
+			console.log(response);	
 			result = JSON.parse(response);
 			if(id != result.id){
 				id = result.id;
@@ -17,7 +18,16 @@ function init(){
 				if(mostraTela == true){
 					if(document.getElementById("audio") != null){
 						//document.getElementById('audio').play();
-						responsiveVoice.speak("Taxi numero "+result.posto1[0].numero,"Brazilian Portuguese Female");
+						var msg = "";
+						var msgMostrada = "";
+						for (var i = 0; i < result.chamados.length; i++) {
+							msg += "Taxi numero "+result.chamados[i].numero+" - ";
+							msgMostrada += "Taxi numero "+result.chamados[i].numero+"</br>";
+						}
+						var toastContent = $('<span>'+msgMostrada+'</span>');
+						// Materialize.toast(toastContent, 10000);
+						responsiveVoice.speak(msg,"Brazilian Portuguese Female",{rate: 1.0});
+						responsiveVoice.speak(msg,"Brazilian Portuguese Female",{rate: 0.8});
 						efeitochamada = true;
 					}
 				} 
@@ -37,11 +47,24 @@ function init(){
 				);
 		});
 	}
+	function exibirTaxiSaida(taxis){
+		var msg = "";
+		for(var i = 0; i < taxis.length;i++){
+			if(i > 0){
+				msg += " | ";
+			}
+			msg += taxis[i].numero;
+		}
+		if(document.getElementById("saida_posto1") != null){
+			document.getElementById("saida_posto1").innerHTML = msg;			
+		}
+	}
 	function mostraFila(taxis){
 		var filaPosto1 = [];
 		var filaPosto2 = [];
 		var filaPosto3 = [];
 
+		exibirTaxiSaida(taxis.chamados);
 		for (var i = 0; i < taxis.posto1.length; i++) {
 			filaPosto1.push(taxis.posto1[i]);
 		}
@@ -113,31 +136,14 @@ function init(){
 		var fila = "";
 		for (var i = 0; i < taxis.length; i++) {
 			if(taxis[i] != null){
-				if(i == 0 && restante == false){
-					if(document.getElementById(saida) != null){
-						if(efeitochamada == true){
-							document.getElementById(saida).innerHTML = "<blink id='item"+taxis[i].numero+"' class='blink'>"+taxis[i].numero+"<blink>";
-							var removeefeito = "item"+taxis[i].numero;
-							setTimeout(function(){
-								if(document.getElementById(removeefeito) != null){
-									document.getElementById(removeefeito).className = '';
-									efeitochamada = false;
-								}
-							},3000);
-						}else{
-							document.getElementById(saida).innerHTML = taxis[i].numero;
-						}
+				if(tipofila == 0){
+					if(restante == false){
+						fila += "<li class='"+taxis[i].status+" "+taxis[i].tipo+"'  style='width: 10%;text-align: center;text-shadow: 2px 2px 5px #000;border-radius: 4px;box-shadow: 5px 5px 5px #b2b0b0;margin-bottom: 20px;' class='"+taxis[i].status+"'>"+taxis[i].numero+"</li>";
+					}else{
+						fila += "<li class='"+taxis[i].status+" "+taxis[i].tipo+"'>"+taxis[i].numero+"<label class='voltas'>"+taxis[i].qtdeviajem+"</label></li>";
 					}
 				}else{
-					if(tipofila == 0){
-						if(restante == false){
-							fila += "<li class='"+taxis[i].status+" "+taxis[i].tipo+"'  style='width: 10%;text-align: center;text-shadow: 2px 2px 5px #000;border-radius: 4px;box-shadow: 5px 5px 5px #b2b0b0;margin-bottom: 20px;' class='"+taxis[i].status+"'>"+taxis[i].numero+"</li>";
-						}else{
-							fila += "<li class='"+taxis[i].status+" "+taxis[i].tipo+"'>"+taxis[i].numero+"<label class='voltas'>"+taxis[i].qtdeviajem+"</label></li>";
-						}
-					}else{
-						fila += "<li id='listafila2' class='"+taxis[i].status+" "+taxis[i].tipo+"'>"+taxis[i].numero+"</li>";
-					}
+					fila += "<li id='listafila2' class='"+taxis[i].status+" "+taxis[i].tipo+"'>"+taxis[i].numero+"</li>";
 				}
 			}
 		}
@@ -151,23 +157,35 @@ function init(){
 	setInterval(function(){ 
 		checaOrdemDaFila();
 	},500);
-	setInterval(function(){ 
-		$.ajax({
-			url: "php/statusTest.php",
-			type: "post",
-			success:function(response){
-			}
-		});
-	},2000);
 
-	setInterval(function(){ 
-		$.ajax({
-			url: "php/chamaTaxi.php",
-			type: "post",
-			success:function(response){
-			}
-		});
-	},15000);
+	//  setInterval(function(){ 
+	//  	$.ajax({
+	//  		url: "php/statusTest.php",
+	//  		type: "post",
+	//  		success:function(response){
+	//  		}
+	//  	});
+	// },3000);
+
+	// setInterval(function(){ 
+	// 	var x = Math.floor((Math.random() * 100) + 1);
+	// 	var qtde = 1;
+	// 	if(x < 75){
+	// 		qtde = 1;
+	// 	}else if(x > 74 &&  x < 90){
+	// 		qtde = 2;
+	// 	}else if(x >= 90){
+	// 		qtde = 3;
+	// 	} 
+	// 	$.ajax({
+	// 		url: "php/chamaTaxi.php",
+	// 		type: "post",
+	// 		data: {"quantidade":qtde},
+	// 		success:function(response){
+	// 			console.log(response);
+	// 		}
+	// 	});
+	// },15000);
 
 
 	

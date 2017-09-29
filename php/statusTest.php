@@ -6,7 +6,12 @@ $taxis = json_decode(file_get_contents('arquivo.json'));
 
 $ausentes = [];
 $presentes = [];
-foreach ($taxis->posto3 as $taxi) {
+
+
+$taxis->alteracao =  rand(0,100);
+
+if(property_exists($taxis,'posto3')){
+	foreach ($taxis->posto3 as $taxi) {
 	if($taxi->status == "ausente"){
 		$ausentes[] = $taxi;
 	}else{
@@ -26,11 +31,10 @@ foreach ($taxis->posto3 as $taxi) {
 		}
 	}
 }
-
-$taxis->alteracao =  rand(0,100);
-
-$fp = fopen('arquivo.json', 'w');
+	$fp = fopen('arquivo.json', 'w');
 fwrite($fp, json_encode($taxis));
 fclose($fp);
 echo json_encode($taxis);
+
+}
 ?>

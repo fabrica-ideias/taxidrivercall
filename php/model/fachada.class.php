@@ -158,16 +158,13 @@ class Fachada{
 	function configuraFila(){
 		$fachada = new Fachada();
 		$confFila = json_decode($fachada->getConfiguracaoFila());
-		$fila = array();
+		$biqueira = [];
+		$plantao = [];
 		$status = "presente";
 		for ($i=0; $i < $confFila->qtdemaxima; $i++) { 
 			$taxi = new Taxi();
 			$taxi->setNumero(($i + 1));
-			if(($i+1)%7 == 0){
-				$taxi->setStatus("ausente");
-			}else{
-				$taxi->setStatus($status);
-			}
+			$taxi->setStatus($status);
 			if($i%2 == 0){
 				$taxi->setTipo("plantao");
 			}else{
@@ -175,44 +172,16 @@ class Fachada{
 			}
 			$taxi->setDispositivo("");
 			$taxi->setQtdeViajem(0);
-			$fila[] = $taxi;
-		}
-		$posto1 = [];
-		$posto2 = [];
-		$posto3 = [];
-		$problema = [];
-		for ($i=0; $i < count($fila); $i++) { 
-			if(count($posto1) < $confFila->qtde_taxi_fila1){
-				if($fila[$i]->status == "presente"){
-					$posto1[] = $fila[$i];
-				}else{
-					if($fila[$i]->status == "problema"){
-						$problema[] = $fila[$i];
-					}else{
-						$posto3[] = $fila[$i];
-					}
-				}
-			}elseif(count($posto2) < $confFila->qtde_taxi_fila2 && count($posto1) == $confFila->qtde_taxi_fila1){
-				if( $fila[$i]->status == "presente"){
-					$posto2[] = $fila[$i];
-				}else{
-					if($fila[$i]->status == "problema"){
-						$problema[] = $fila[$i];
-					}else{
-						$posto3[] = $fila[$i];
-					}
-				}
-			}else if(count($posto2) == $confFila->qtde_taxi_fila2 && count($posto1) == $confFila->qtde_taxi_fila1){
-				if($fila[$i]->status == "presente" || $fila[$i]->status == "ausente" ){
-					$posto3[] = $fila[$i];
-				}else{
-					$problema[] = $fila[$i];
-				}
+			if($taxi->getTipo() == "biqueira"){
+				$biqueira[] = $taxi;
+			}else{
+				$plantao[] = $taxi;
 			}
 		}
 		$alteracao = rand(0,100); 
-		$ordem = array("posto1" => $posto1 , "posto2" => $posto2, "posto3" => $posto3,"problemas" =>$problema,"id"=>1,"alteracao"=>$alteracao,
-			"opcaofila"=>$confFila->tipo_fila,"plantao"=> 0, "biqueira"=>0,"dia"=>date("d-m-Y"));
+		$ordem = array("posto1" => [] , "posto2" =>[], "posto3" => [],"problemas" =>[],"id"=>1,"alteracao"=>$alteracao,
+			"opcaofila"=>$confFila->tipo_fila,"plantao"=> $plantao,
+			"biqueira"=>$biqueira,"dia"=>date("d-m-Y"),"contadorBiqueira"=>0,"contadorPlantao"=>0);
 		$fp = fopen('principal.json', 'w');
 		fwrite($fp, json_encode($ordem));
 		fclose($fp);
@@ -239,31 +208,76 @@ class Fachada{
 		$taxis = json_decode(file_get_contents('principal.json'));
 		$ultimodia = strtotime($taxis->dia);
 		$hoje = strtotime(date('d-m-Y'));
-		if($ultimodia != $hoje || !file_exists('arquivo.json')){
-			$posto1 = [];
-			$posto2 = [];
-			$posto3 = [];
-			$problema = [];
-			foreach ($taxis->posto1 as $taxi) {
-				$posto1[] = $taxi;
-			}
-			foreach ($taxis->posto2 as $taxi) {
-				$posto2[] = $taxi;
-			}
-			foreach ($taxis->posto3 as $taxi) {
-				$posto3[] = $taxi;
-			}
-			foreach ($taxis->problemas as $taxi) {
-				$problema[] = $taxi;
-			}
-			$alteracao = rand(0,100);
-			$ordem = array("posto1" => $posto1 , "posto2" => $posto2, "posto3" => $posto3,"problemas" =>$problema,"id"=>1,"alteracao"=>$alteracao,
-				"opcaofila"=>1,"plantao"=> 0, "biqueira"=>0,"dia"=>date("d-m-Y"));
-			$fp = fopen('arquivo.json', 'w');
-			fwrite($fp, json_encode($ordem));
-			fclose($fp);
-			$this->AtualizaDataFila($taxis);
+		if(!file_exists('arquivo.json')){
+			$this->reiniciaFila($taxis);
 		}
+
+		if($ultimodia != $hoje){
+			$taxi = $taxis->plantao[0];
+			for($i = 0; $i < count($taxis->plantao);$i++){
+				if($i + 1 != count($taxis->plantao)){
+					$taxis->plantao[$i]->tipo = "biqueira";
+					$aux = $taxis->plantao[$i + 1];
+					$taxis->plantao[$i + 1] = $taxi;
+					$taxi = $aux;
+				}
+			}
+			$taxi->tipo ="biqueira";
+			$taxis->plantao[0] = $taxi;
+			foreach($taxis->biqueira as $biqueira){
+				$biqueira->tipo = "plantao";
+			}
+			$biqueira = $taxis->plantao;
+			$taxis->plantao = $taxis->biqueira;
+			$taxis->biqueira = $biqueira;
+			$this->reiniciaFila($taxis);
+		}
+	}
+	function reiniciaFila($taxis){
+		$confFila = json_decode($this->getConfiguracaoFila());
+		$posto1 = [];
+		$posto2 = [];
+		$posto3 = [];
+		$problema = [];
+
+		$plantao = 0;
+		$p = 0;
+		$biqueira = 0;
+		$b = 0;
+		for($i = 0; count($posto1) < $confFila->qtde_taxi_fila1; $i++){
+			$posto1[] = $taxis->plantao[$plantao];
+			$plantao++; 
+			$p++;
+		}
+		for($i = 0; count($posto2) < $confFila->qtde_taxi_fila2; $i++){
+			if($p == 10 && $b == 3){
+				$b = 0;
+				$p = 0;
+			}
+			if($p < 10){
+				$posto2[] = $taxis->plantao[$plantao];
+				$plantao++; 
+				$p++;
+			}else if($p == 10 && $b < 3){
+				$posto2[] = $taxis->biqueira[$biqueira];
+				$biqueira++; 
+				$b++;
+			}
+		}
+		for($i = $plantao; $i < count($taxis->plantao);$i++){
+			$posto3[] = $taxis->plantao[$i];
+		}
+		for($i = $biqueira; $i < count($taxis->biqueira);$i++){
+			$posto3[] = $taxis->biqueira[$i];
+		}
+
+		$alteracao = rand(0,100);
+		$ordem = array("posto1" => $posto1 , "posto2" => $posto2, "posto3" => $posto3,"problemas" =>$problema,"id"=>1,"alteracao"=>$alteracao,
+			"opcaofila"=>1,"plantao"=> $p, "biqueira"=>$b,"dia"=>date("d-m-Y"),"chamados"=>[]);
+		$fp = fopen('arquivo.json', 'w');
+		fwrite($fp, json_encode($ordem));
+		fclose($fp);
+		$this->AtualizaDataFila($taxis);
 	}
 
 	function AtualizaDataFila($fila){

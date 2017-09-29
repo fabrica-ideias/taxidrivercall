@@ -1,13 +1,14 @@
 <?php 
-	require_once("model/fachada.class.php");
-	$fachada = new fachada();
-	$dispositivo = $_GET['mac'];
-	
-	$fp = fopen('teste.json', 'a');
-	fwrite($fp,$dispositivo."\n");
-	fclose($fp);
+date_default_timezone_set('America/Sao_Paulo');
+require_once("model/fachada.class.php");
+$fachada = new fachada();
+$dispositivo = $_GET["mac"];
+$taxis = json_decode(file_get_contents('arquivo.json'));
+if(property_exists($taxis,'posto3')){
 	if((strlen($dispositivo) > 0) && ($fachada->existBeacon($dispositivo) == 1)){
-		$taxis = json_decode(file_get_contents('arquivo.json'));
+		$fp = fopen('teste.json', 'a');
+		fwrite($fp,date("s")." segundos\n");
+		fclose($fp);
 		foreach ($taxis->posto1 as $taxi) {
 			$status = "";
 			if($taxi->dispositivo == $dispositivo){
@@ -44,10 +45,12 @@
 		}
 
 		$taxis->alteracao =  rand(0,100);
-
-		$fp = fopen('arquivo.json', 'w');
-		fwrite($fp, json_encode($taxis));
-		fclose($fp);
-		echo json_encode($taxis);
+		if(property_exists($taxis,'posto3')){
+			$fp = fopen('arquivo.json', 'w');
+			fwrite($fp, json_encode($taxis));
+			fclose($fp);
+			echo json_encode($taxis);
+		}
 	}
+}
 ?>
