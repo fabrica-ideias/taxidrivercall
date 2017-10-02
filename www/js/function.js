@@ -3,7 +3,7 @@ function init(){
 	var id = 0;
 	var alteracao = 0;
 	var efeitochamada = false;
-	var url = "http://taxidrivercall.000webhostapp.com/"
+	var url = "";//"http://taxidrivercall.000webhostapp.com/"
 
 	function checaOrdemDaFila(){
 		request = $.ajax({
@@ -145,19 +145,22 @@ function init(){
 			if(taxis[i] != null){
 				if(tipofila == 0){
 					if(restante == false){
-						fila += "<li class='"+taxis[i].status+" "+taxis[i].tipo+"'  style='width: 10%;text-align: center;text-shadow: 2px 2px 5px #000;border-radius: 4px;box-shadow: 5px 5px 5px #b2b0b0;margin-bottom: 20px;' class='"+taxis[i].status+"'>"+taxis[i].numero+"</li>";
+						fila += "<li class='"+taxis[i].status+" "+taxis[i].tipo+"'  style='width: 100px;text-align: center;text-shadow: 2px 2px 5px #000;border-radius: 4px;box-shadow: 5px 5px 5px #b2b0b0;margin-bottom: 20px;' class='"+taxis[i].status+"'>"+taxis[i].numero+"</li>";
+						if(i + 1 != taxis.length){
+							fila += "<li ><</li>";
+						}
 					}else{
 						fila += "<li class='"+taxis[i].status+" "+taxis[i].tipo+"'>"+taxis[i].numero+"</li>";
 					}
 				}else{
 					fila += "<li id='listafila2' class='"+taxis[i].status+" "+taxis[i].tipo+"'>"+taxis[i].numero+"</li>";
+					if(i + 1 != taxis.length){
+						fila += "<li id='listafila2' ><</li>";
+					}
 				}
 			}
 		}
 		if(document.getElementById(lista) != null){
-			if(restante == false){
-				fila = '<li ><i style="background: #2b7bc7;padding: 5px;border-radius:100%;" class="small material-icons">arrow_back</i></li>'+fila;
-			}
 			document.getElementById(lista).innerHTML = fila;
 		}
 	}

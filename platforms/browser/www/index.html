@@ -24,7 +24,7 @@
 					<a class='dropdown-button btn dpdown' data-beloworigin="true" href='#' data-activates='dropdown1'> OPÇÕES</a>
 					<!-- Dropdown Structure -->
 					<ul id='dropdown1' class='dropdown-content'>
-						<li><a href="#!"><i class="material-icons">record_voice_over</i>CHAMAR TAXI</a></li>
+						<li><a   class="modal-trigger"href="#modalChamada"><i class="material-icons">record_voice_over</i>CHAMAR TAXI</a></li>
 						<li><a href="#!"><i class="material-icons">settings</i>CONFIGURAR FILA</a></li>
 					</ul>
 					<h3 class="titulochamada">POSTO 1</h3>
@@ -36,6 +36,7 @@
 				</div>
 				<div class="col s12 l6 subcontainer ">
 					<h3 class="titulochamada">CONTROLE DE FILA</h3>
+					<p style="text-align:center">Corrida Bônus</p>
 					<h1 id="saida_posto2">-</h1>
 					<ul class="proximo" id="fila_posto2">
 					</ul>
@@ -69,6 +70,8 @@
 			<source src="assets/sons/alert.mp3" type="audio/mp3" />
 		</audio>
 	</div>
+
+	<!-- Modal do dados do taxi -->
 	<div id="modal1" class="modal">
 		<div class="modal-content">
 			<div class="row">
@@ -92,7 +95,26 @@
 			<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">OK</a>
 		</div>
 	</div>
+	<!--  Modal de chamada -->
+	<div id="modalChamada" class="modal">
+		<div class="modal-content">
+			<div class="row">
+				<div class="input-field col s12">
+					<input id="qtdeTaxi" value="" type="number" class="validate">
+					<label for="qtdeTaxi">Digite a quantidade de taxi ?</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col l4"></div>
 
+				<button class="input-field col s12 l4 btn">CHAMAR</button>
+				<div class="input-field col l4"></div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
+		</div>
+	</div>
 
 	<!-- <div class="row">
 		<div class="col l5"></div>

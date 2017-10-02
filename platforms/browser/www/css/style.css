@@ -271,7 +271,7 @@ p.problema_taxi{
 @media screen and (max-width: 1024px){
 	.fila li{
 		float: left;
-		width: 10%;
+		width: 20%;
 		text-align: center;
 		font-size: 2em;
 		border:1px solid #000;
