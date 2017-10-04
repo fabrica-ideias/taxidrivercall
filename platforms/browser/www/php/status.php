@@ -13,6 +13,7 @@ if(property_exists($taxis,'posto3')){
 		$beacon = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM Beacon WHERE mac='$dispositivo'"));
 		$ultimo = strtotime($beacon['proxima_deteccao']);
 		$tempoAgora = strtotime(date('Y-m-d H:i:s'));
+
 		if($tempoAgora >= $ultimo){
 			$fp = fopen('teste.json', 'a');
 			fwrite($fp,date("s")." segundos\n");
@@ -60,7 +61,8 @@ if(property_exists($taxis,'posto3')){
 				echo json_encode($taxis);
 			}
 			$date = date('Y-m-d H:i:s');
-			$novaData = date("Y-m-d H:i:s",strtotime($date." +5 minutes"));
+			$config = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM Configuracao WHERE idconfig='1'"));
+			$novaData = date("Y-m-d H:i:s",strtotime($date." +".$config['beacon_tempo']." minutes"));
 			mysqli_query($con,"UPDATE Beacon SET ultimadeteccao ='$date' ,proxima_deteccao = '$novaData' WHERE mac='$dispositivo'");
 		}
 	}

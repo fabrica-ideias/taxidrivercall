@@ -144,8 +144,3 @@ a{
 #conteudo{
 	display: none;
 }
-.modal-content {
-	padding: 0px !important;
-	width: 100% !important;
-	height: 100% !important;
-}

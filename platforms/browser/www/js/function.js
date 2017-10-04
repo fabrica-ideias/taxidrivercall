@@ -3,7 +3,7 @@ function init(){
 	var id = 0;
 	var alteracao = 0;
 	var efeitochamada = false;
-	var url = "http://taxidrivercall.000webhostapp.com/"
+	var url = "";//"http://taxidrivercall.000webhostapp.com/"
 
 	function checaOrdemDaFila(){
 		request = $.ajax({
@@ -11,7 +11,6 @@ function init(){
 			type: "post"
 		});
 		request.done(function (response, textStatus, jqXHR){
-			console.log(response);	
 			result = JSON.parse(response);
 			if(id != result.id){
 				id = result.id;
@@ -49,17 +48,21 @@ function init(){
 		});
 	}
 	function exibirTaxiSaida(taxis){
-		var msg = "-";
-		for(var i = 0; i < taxis.length;i++){
-			if(i > 0){
-				msg += " | ";
+		var msg = " - ";
+		if(taxis.length > 0){
+			msg  = " ";
+			for(var i = 0; i < taxis.length;i++){
+				if(i > 0){
+					msg += " | ";
+				}
+				msg += taxis[i].numero;
 			}
-			msg += taxis[i].numero;
 		}
 		if(document.getElementById("saida_posto1") != null){
 			document.getElementById("saida_posto1").innerHTML = msg;			
 		}
 	}
+
 	function mostraFila(taxis){
 		var filaPosto1 = [];
 		var filaPosto2 = [];
@@ -89,7 +92,9 @@ function init(){
 			preencherFilas(filaPosto3,"","fila_posto3",true,0);
 			document.getElementById("filaprincipal").style.display = "block";
 			document.getElementById("filapratao").style.display = "none";
-			document.getElementById("filabiqueira").style.display = "none";
+			if(document.getElementById("filabiqueira") != null){
+				document.getElementById("filabiqueira").style.display = "none";
+			}
 			document.getElementById("plantao").innerHTML = "";
 			document.getElementById("biqueira").innerHTML = "";
 		}else{
@@ -119,7 +124,9 @@ function init(){
 			preencherSegundaFila(filaPosto3);
 			document.getElementById("filaprincipal").style.display = "none";
 			document.getElementById("filapratao").style.display = "block";
-			document.getElementById("filabiqueira").style.display = "block";
+			if(document.getElementById("filabiqueira") != null){	
+				document.getElementById("filabiqueira").style.display = "block";
+			}
 		}
 	}
 	function preencherSegundaFila(taxis){
@@ -145,19 +152,22 @@ function init(){
 			if(taxis[i] != null){
 				if(tipofila == 0){
 					if(restante == false){
-						fila += "<li class='"+taxis[i].status+" "+taxis[i].tipo+"'  style='width: 10%;text-align: center;text-shadow: 2px 2px 5px #000;border-radius: 4px;box-shadow: 5px 5px 5px #b2b0b0;margin-bottom: 20px;' class='"+taxis[i].status+"'>"+taxis[i].numero+"</li>";
+						fila += "<li class='"+taxis[i].status+" "+taxis[i].tipo+"'  style='width: 100px;text-align: center;text-shadow: 2px 2px 5px #000;border-radius: 4px;box-shadow: 5px 5px 5px #b2b0b0;margin-bottom: 20px;' class='"+taxis[i].status+"'>"+taxis[i].numero+"</li>";
+						if(i + 1 != taxis.length){
+							fila += "<li ><</li>";
+						}
 					}else{
 						fila += "<li class='"+taxis[i].status+" "+taxis[i].tipo+"'>"+taxis[i].numero+"</li>";
 					}
 				}else{
 					fila += "<li id='listafila2' class='"+taxis[i].status+" "+taxis[i].tipo+"'>"+taxis[i].numero+"</li>";
+					if(i + 1 != taxis.length){
+						fila += "<li id='listafila2' ><</li>";
+					}
 				}
 			}
 		}
 		if(document.getElementById(lista) != null){
-			if(restante == false){
-				fila = '<li ><i style="background: #2b7bc7;padding: 5px;border-radius:100%;" class="small material-icons">arrow_back</i></li>'+fila;
-			}
 			document.getElementById(lista).innerHTML = fila;
 		}
 	}
@@ -174,27 +184,24 @@ function init(){
 	//  	});
 	// },3000);
 
-	// setInterval(function(){ 
-	// 	var x = Math.floor((Math.random() * 100) + 1);
-	// 	var qtde = 1;
-	// 	if(x < 75){
-	// 		qtde = 1;
-	// 	}else if(x > 74 &&  x < 90){
-	// 		qtde = 2;
-	// 	}else if(x >= 90){
-	// 		qtde = 3;
-	// 	} 
-	// 	$.ajax({
-	// 		url: "php/chamaTaxi.php",
-	// 		type: "post",
-	// 		data: {"quantidade":qtde},
-	// 		success:function(response){
-	// 			console.log(response);
-	// 		}
-	// 	});
-	// },15000);
-
-
+	if(document.getElementById("btnChamar") != null){
+		document.getElementById("btnChamar").addEventListener("click",function(){
+			var qtde = parseInt(document.getElementById("qtdeChamada").innerHTML);
+			if(qtde > 0){
+				$.ajax({
+					url: "php/chamaTaxi.php",
+					type: "post",
+					data: {"quantidade":qtde},
+					success:function(response){
+						$('#modalChamada').modal('close');
+					}
+				});
+			}else{
+				document.getElementById("qtdeTaxi").setAttribute("class", "validate invalid");
+				document.getElementById("qtdeTaxi").focus();
+			}
+		});
+	}
 	
 	if(document.getElementById("proximo") != null){
 		btnProxmoTaxi = document.getElementById("proximo");
@@ -217,6 +224,7 @@ function init(){
 		});
 	}
 	$('.modal').modal();
+
 }
 
 function initOrdemFila(){
@@ -250,4 +258,5 @@ function initOrdemFila(){
 		});
 
 	});
+
 }

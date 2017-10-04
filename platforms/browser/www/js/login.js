@@ -3,6 +3,7 @@ function initLogin(){
 	var usuario = null;
 	var config = null;
 	var validaEmail = false;
+	var qtdeChamada = 1;
 	function login(){
 		if(verificarEmail == false){
 			var email = document.getElementById("email").value;
@@ -323,61 +324,82 @@ function initLogin(){
 		 	});
 
 		 	//salva configuração de fila
-		 	document.getElementById("salvaConfiguracaoFila").addEventListener("click",function(){
-		 		var opcao = 0;
-		 		if(document.getElementById("fila1").checked == true){
-		 			opcao = 0;
-		 		}else{
-		 			opcao = 1;
-		 		}
-		 		var qtdefila1 = document.getElementById("qtdeFila1").value;
-		 		var qtdefila2 = document.getElementById("qtdeFila2").value;
-		 		var qtdeMaxima = document.getElementById("qtdemaxima").value;
-		 		$.ajax({
-		 			type:"POST",
-		 			url:"php/configuracaoFila.php",
-		 			type: "POST",             
-		 			data: {"tipofila":opcao,"qtdeFila1":qtdefila1,"qtdeFila2":qtdefila2,"qtdeMaxima":qtdeMaxima}, 
-		 			success: function(data) {
-		 				alert("Tipo de fila Alterada");
-		 				console.log(data);
-		 			}
-		 		});
-		 	});
-		 	// Habilita o painel
-		 	document.getElementById("painelConfigFila").addEventListener("click",function(){
-		 		document.getElementById("configFila").style.display = "block";
-		 		document.getElementById("horarioFila").style.display = "none";
-		 	});
-		 	document.getElementById("painelHorarioFila").addEventListener("click",function(){
-		 		document.getElementById("horarioFila").style.display = "block";
-		 		document.getElementById("configFila").style.display = "none";
-		 	});
-		 	//salva o horario
-		 	document.getElementById("salvaHorario").addEventListener("click",function(){
-		 		var opcao = 0;
-		 		if(document.getElementById("tipofila1").checked == true){
-		 			opcao = 0;
-		 		}else{
-		 			opcao = 1;
-		 		}
-		 		var tempoInicial = document.getElementById("tempoInicial").value;
-		 		var tempoFinal = document.getElementById("tempoFinal").value;
 
-		 		console.log(opcao+" "+tempoInicial+" - "+tempoFinal);
-		 		$.ajax({
-		 			type:"POST",
-		 			url:"php/salvaControle.php",
-		 			type: "POST",             
-		 			data: {"opcao":opcao,"tempoInicial":tempoInicial,"tempoFinal":tempoFinal}, 
-		 			success: function(data) {
-		 				var lista = JSON.parse(data);
-		 				mostraHorariosFila(lista);
+		 	if(document.getElementById("salvaConfiguracaoFila") != null){
+		 		document.getElementById("salvaConfiguracaoFila").addEventListener("click",function(){
+		 			var opcao = 0;
+		 			if(document.getElementById("fila1").checked == true){
+		 				opcao = 0;
+		 			}else{
+		 				opcao = 1;
 		 			}
+		 			var qtdefila1 = document.getElementById("qtdeFila1").value;
+		 			var qtdefila2 = document.getElementById("qtdeFila2").value;
+		 			var qtdeMaxima = document.getElementById("qtdemaxima").value;
+		 			$.ajax({
+		 				type:"POST",
+		 				url:"php/configuracaoFila.php",
+		 				type: "POST",             
+		 				data: {"tipofila":opcao,"qtdeFila1":qtdefila1,"qtdeFila2":qtdefila2,"qtdeMaxima":qtdeMaxima}, 
+		 				success: function(data) {
+		 					alert("Tipo de fila Alterada");
+		 					console.log(data);
+		 				}
+		 			});
 		 		});
-		 	});
-		 	controleFila();
-		 	consultaConfiguracaoFila();
+		 	}
+		 	// Habilita o painel
+		 	if(document.getElementById("painelConfigFila") != null){
+		 		document.getElementById("painelConfigFila").addEventListener("click",function(){
+		 			document.getElementById("configFila").style.display = "block";
+		 			document.getElementById("horarioFila").style.display = "none";
+		 		});
+		 	}
+		 	if(document.getElementById("painelHorarioFila") != null){ 
+		 		document.getElementById("painelHorarioFila").addEventListener("click",function(){
+		 			document.getElementById("horarioFila").style.display = "block";
+		 			document.getElementById("configFila").style.display = "none";
+		 		});
+		 	}
+		 	if(document.getElementById("salvaHorario") != null){ 
+			 	//salva o horario
+			 	document.getElementById("salvaHorario").addEventListener("click",function(){
+			 		var opcao = 0;
+			 		if(document.getElementById("tipofila1").checked == true){
+			 			opcao = 0;
+			 		}else{
+			 			opcao = 1;
+			 		}
+			 		var tempoInicial = document.getElementById("tempoInicial").value;
+			 		var tempoFinal = document.getElementById("tempoFinal").value;
+
+			 		console.log(opcao+" "+tempoInicial+" - "+tempoFinal);
+			 		$.ajax({
+			 			type:"POST",
+			 			url:"php/salvaControle.php",
+			 			type: "POST",             
+			 			data: {"opcao":opcao,"tempoInicial":tempoInicial,"tempoFinal":tempoFinal}, 
+			 			success: function(data) {
+			 				var lista = JSON.parse(data);
+			 				mostraHorariosFila(lista);
+			 			}
+			 		});
+			 	});
+			 }
+			 document.getElementById("qtdeChamada").innerHTML = qtdeChamada;
+			 document.getElementById("addChamado").addEventListener("click",function(){
+			 	qtdeChamada++;
+			 	document.getElementById("qtdeChamada").innerHTML = qtdeChamada;
+			 });
+			 document.getElementById("removeChamado").addEventListener("click",function(){
+			 	if(qtdeChamada != 1){
+			 		qtdeChamada--;
+			 		document.getElementById("qtdeChamada").innerHTML = qtdeChamada;
+			 	}
+			 });
+		 	// controleFila();
+		 	// consultaConfiguracaoFila();
+		 	init();
 		 });
 
 	}
@@ -436,8 +458,12 @@ function initLogin(){
 		});
 	}
 	function desativar(){
-		document.getElementById("configuracao").style.display = "none";
-		document.getElementById("container").style.display = "none";
+		if(document.getElementById("configuracao") != null){
+			document.getElementById("configuracao").style.display = "none";
+		}
+		if(document.getElementById("container") != null){
+			document.getElementById("container").style.display = "none";
+		}
 	}
 	function controleFila(){
 		$.ajax({

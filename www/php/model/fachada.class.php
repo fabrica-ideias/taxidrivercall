@@ -160,7 +160,7 @@ class Fachada{
 		$confFila = json_decode($fachada->getConfiguracaoFila());
 		$biqueira = [];
 		$plantao = [];
-		$status = "ausente";
+		$status = "presente";
 		for ($i=0; $i < $confFila->qtdemaxima; $i++) { 
 			$taxi = new Taxi();
 			$taxi->setNumero(($i + 1));

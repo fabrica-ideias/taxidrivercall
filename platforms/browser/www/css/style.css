@@ -33,12 +33,12 @@ body{
 	font-family: 'Material Icons';
 	font-style: normal;
 	font-weight: 400;
-	src: url(https://example.com/MaterialIcons-Regular.eot); /* For IE6-8 */
+	src: url(font/MaterialIcons-Regular.eot); /* For IE6-8 */
 	src: local('Material Icons'),
 	local('MaterialIcons-Regular'),
-	url(MaterialIcons-Regular.woff2) format('woff2'),
-	url(MaterialIcons-Regular.woff) format('woff'),
-	url(MaterialIcons-Regular.ttf) format('truetype');
+	url(font/MaterialIcons-Regular.woff2) format('woff2'),
+	url(font/MaterialIcons-Regular.woff) format('woff'),
+	url(font/MaterialIcons-Regular.ttf) format('truetype');
 }
 .material-icons {
 	font-family: 'Material Icons';
@@ -268,6 +268,12 @@ p.problema_taxi{
 		opacity: 0;
 	}
 }
+.bloco_fila{	
+	margin: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+
+}
 @media screen and (max-width: 1024px){
 	.fila li{
 		float: left;
@@ -298,5 +304,5 @@ p.problema_taxi{
 			width: 5%;
 			font-size: 0.75em;
 			}*/
-	
-}
+
+		}

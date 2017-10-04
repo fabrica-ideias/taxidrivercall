@@ -93,9 +93,13 @@ if (file_exists('arquivo.json')) {
 				}
 				if($paraPosto2 != null){
 					$fila->posto2[count($fila->posto2)-1] = $paraPosto2;
+				}else{
+					unset($fila->posto2[count($fila->posto2)-1]);
 				}
 				if($paraPosto1 != null){
 					$fila->posto1[count($fila->posto1)-1] = $paraPosto1;
+				}else{
+					unset($fila->posto1[count($fila->posto1)-1]);
 				}
 				if($fila->plantao == 10 && $fila->biqueira == 3){
 					$fila->plantao = 0;

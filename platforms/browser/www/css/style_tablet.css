@@ -87,14 +87,6 @@ body{
 	color: #fff;
 	padding: 10px;
 }*/
-#modalLoad{
-	display: none;
-	position: absolute;
-    right: 0;
-    left: 0;
-    text-align: center;
-    top: 30% !important;
-}
 .proximo li{
 	float: left;
 	margin-left: 30px;

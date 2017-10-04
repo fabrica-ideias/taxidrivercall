@@ -11,7 +11,6 @@ function init(){
 			type: "post"
 		});
 		request.done(function (response, textStatus, jqXHR){
-			console.log(response);	
 			result = JSON.parse(response);
 			if(id != result.id){
 				id = result.id;
@@ -49,17 +48,21 @@ function init(){
 		});
 	}
 	function exibirTaxiSaida(taxis){
-		var msg = "-";
-		for(var i = 0; i < taxis.length;i++){
-			if(i > 0){
-				msg += " | ";
+		var msg = " - ";
+		if(taxis.length > 0){
+			msg  = " ";
+			for(var i = 0; i < taxis.length;i++){
+				if(i > 0){
+					msg += " | ";
+				}
+				msg += taxis[i].numero;
 			}
-			msg += taxis[i].numero;
 		}
 		if(document.getElementById("saida_posto1") != null){
 			document.getElementById("saida_posto1").innerHTML = msg;			
 		}
 	}
+
 	function mostraFila(taxis){
 		var filaPosto1 = [];
 		var filaPosto2 = [];
@@ -89,7 +92,9 @@ function init(){
 			preencherFilas(filaPosto3,"","fila_posto3",true,0);
 			document.getElementById("filaprincipal").style.display = "block";
 			document.getElementById("filapratao").style.display = "none";
-			document.getElementById("filabiqueira").style.display = "none";
+			if(document.getElementById("filabiqueira") != null){
+				document.getElementById("filabiqueira").style.display = "none";
+			}
 			document.getElementById("plantao").innerHTML = "";
 			document.getElementById("biqueira").innerHTML = "";
 		}else{
@@ -119,7 +124,9 @@ function init(){
 			preencherSegundaFila(filaPosto3);
 			document.getElementById("filaprincipal").style.display = "none";
 			document.getElementById("filapratao").style.display = "block";
-			document.getElementById("filabiqueira").style.display = "block";
+			if(document.getElementById("filabiqueira") != null){	
+				document.getElementById("filabiqueira").style.display = "block";
+			}
 		}
 	}
 	function preencherSegundaFila(taxis){
@@ -177,27 +184,40 @@ function init(){
 	//  	});
 	// },3000);
 
-	// setInterval(function(){ 
-	// 	var x = Math.floor((Math.random() * 100) + 1);
-	// 	var qtde = 1;
-	// 	if(x < 75){
-	// 		qtde = 1;
-	// 	}else if(x > 74 &&  x < 90){
-	// 		qtde = 2;
-	// 	}else if(x >= 90){
-	// 		qtde = 3;
-	// 	} 
-	// 	$.ajax({
-	// 		url: "php/chamaTaxi.php",
-	// 		type: "post",
-	// 		data: {"quantidade":qtde},
-	// 		success:function(response){
-	// 			console.log(response);
-	// 		}
-	// 	});
-	// },15000);
+	if(document.getElementById("btnChamar") != null){
+		$('#modalLoad').modal({
+		      dismissible: false, // Modal can be dismissed by clicking outside of the modal
+		      opacity: .5, // Opacity of modal background
+		      inDuration: 300, // Transition in duration
+		      outDuration: 200, // Transition out duration
+		      startingTop: '4%', // Starting top style attribute
+		      endingTop: '10%', // Ending top style attribute
+		      ready: function(modal, trigger) { // Callback for Modal open. Modal and trigger parameters available.
+		      },
+		      complete: function() {
 
-
+		      } // Callback for Modal close
+		  }
+		  );
+		document.getElementById("btnChamar").addEventListener("click",function(){
+			var qtde = parseInt(document.getElementById("qtdeChamada").innerHTML);
+			$('#modalChamada').modal('close');
+			$('#modalLoad').modal('open');
+			if(qtde > 0){
+				$.ajax({
+					url: "php/chamaTaxi.php",
+					type: "post",
+					data: {"quantidade":qtde},
+					success:function(response){
+						$('#modalLoad').modal('close');
+					}
+				});
+			}else{
+				document.getElementById("qtdeTaxi").setAttribute("class", "validate invalid");
+				document.getElementById("qtdeTaxi").focus();
+			}
+		});
+	}
 	
 	if(document.getElementById("proximo") != null){
 		btnProxmoTaxi = document.getElementById("proximo");
@@ -220,6 +240,7 @@ function init(){
 		});
 	}
 	$('.modal').modal();
+
 }
 
 function initOrdemFila(){
@@ -253,4 +274,5 @@ function initOrdemFila(){
 		});
 
 	});
+
 }
