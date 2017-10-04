@@ -15,6 +15,7 @@ function init(){
 			if(id != result.id){
 				id = result.id;
 				mostraFila(result);
+				posicaoFila(result);
 				if(mostraTela == true){
 					if(document.getElementById("audio") != null){
 						//document.getElementById('audio').play();
@@ -47,20 +48,39 @@ function init(){
 				);
 		});
 	}
+
+	function posicaoFila(taxis){
+		var posto1 = "";
+		var posto2 = "";
+		var posto3 = "";
+		for (var i = 0; i < taxis.posto1.length; i++) {
+			posto1 += "<li  class='grabbable  "+taxis.posto1[i].status+"'>"+taxis.posto1[i].numero+"</li>";
+		}
+		for (var i = 0; i < taxis.posto2.length; i++) {
+			posto2 += "<li  class='grabbable  "+taxis.posto2[i].status+"'>"+taxis.posto2[i].numero+"</li>";
+		}
+		for (var i = 0; i < taxis.posto3.length; i++) {
+			posto3 += "<li  class='grabbable  "+taxis.posto3[i].status+"'>"+taxis.posto3[i].numero+"</li>";
+		}
+		document.getElementById("posicao_posto1").innerHTML = posto1;
+		document.getElementById("posicao_posto2").innerHTML = posto2;
+		document.getElementById("posicao_posto3").innerHTML = posto3;
+
+	}
 	function exibirTaxiSaida(taxis){
 		var msg = " - ";
-		if(taxis.length > 0){
-			msg  = " ";
-			for(var i = 0; i < taxis.length;i++){
-				if(i > 0){
-					msg += " | ";
-				}
-				msg += taxis[i].numero;
-			}
-		}
-		if(document.getElementById("saida_posto1") != null){
-			document.getElementById("saida_posto1").innerHTML = msg;			
-		}
+		// if(taxis.length > 0){
+		// 	msg  = " ";
+		// 	for(var i = 0; i < taxis.length;i++){
+		// 		if(i > 0){
+		// 			msg += " | ";
+		// 		}
+		// 		msg += taxis[i].numero;
+		// 	}
+		// }
+		// if(document.getElementById("saida_posto1") != null){
+		// 	document.getElementById("saida_posto1").innerHTML = msg;			
+		// }
 	}
 
 	function mostraFila(taxis){
@@ -153,17 +173,12 @@ function init(){
 				if(tipofila == 0){
 					if(restante == false){
 						fila += "<li class='"+taxis[i].status+" "+taxis[i].tipo+"'  style='width: 100px;text-align: center;text-shadow: 2px 2px 5px #000;border-radius: 4px;box-shadow: 5px 5px 5px #b2b0b0;margin-bottom: 20px;' class='"+taxis[i].status+"'>"+taxis[i].numero+"</li>";
-						if(i + 1 != taxis.length){
-							fila += "<li ><</li>";
-						}
+
 					}else{
 						fila += "<li class='"+taxis[i].status+" "+taxis[i].tipo+"'>"+taxis[i].numero+"</li>";
 					}
 				}else{
 					fila += "<li id='listafila2' class='"+taxis[i].status+" "+taxis[i].tipo+"'>"+taxis[i].numero+"</li>";
-					if(i + 1 != taxis.length){
-						fila += "<li id='listafila2' ><</li>";
-					}
 				}
 			}
 		}

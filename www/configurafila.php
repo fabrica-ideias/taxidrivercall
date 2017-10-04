@@ -16,9 +16,9 @@
 </head>
 <body>
 	<div class="container">
-		<div class="row" style="margin-top: 5%;">
+		<div class="row">
 			<div class="row">
-				<div class="col s12 subcontainer " style="padding:0px 30px;">
+				<div class="col s12 subcontainer ">
 					<ul class="fila ordemFila" id="fila_posto3">
 						<?php
 							$fila = json_decode(file_get_contents('php/arquivo.json'));
@@ -48,28 +48,28 @@
 		var ordem = [];
 	    $( "ul" ).sortable();
 	    $( "ul" ).disableSelection();
-	    $('.btn').click(function(){
-	    	ordem = [];
-		    $( "li" ).each(function( index ) {
-				ordem.push($( this ).text());
+	  //   $('.aaaaaaaaaa').click(function(){
+	  //   	ordem = [];
+		 //    $( "li" ).each(function( index ) {
+			// 	ordem.push($( this ).text());
 
-			});
-			request = $.ajax({
-		        url: "php/ordenarLista.php",
-		        type: "post",
-		        data: {'ordem': JSON.stringify(ordem)}
-			});
-			request.done(function (response, textStatus, jqXHR){
-				console.log(response);
+			// });
+			// request = $.ajax({
+		 //        url: "php/ordenarLista.php",
+		 //        type: "post",
+		 //        data: {'ordem': JSON.stringify(ordem)}
+			// });
+			// request.done(function (response, textStatus, jqXHR){
+			// 	console.log(response);
 
-			});
-			request.fail(function (jqXHR, textStatus, errorThrown){
-			    console.error(
-			        "The following error occurred: "+
-			        textStatus, errorThrown
-			    );
-			});
-	    });
+			// });
+			// request.fail(function (jqXHR, textStatus, errorThrown){
+			//     console.error(
+			//         "The following error occurred: "+
+			//         textStatus, errorThrown
+			//     );
+			// });
+	  //   });
 
 	});
 	</script>

@@ -20,9 +20,9 @@ function initLogin(){
 		if(email.indexOf("@") >= 0 && email.indexOf(".com") >= 0 ){
 			request = $.ajax({
 				url: "php/consultaEmail.php",
-				type: "post",
-				data: "email="+email
-			});
+				type: "post",	
+				data: "email="+email	
+			});	
 			request.done(function (response, textStatus, jqXHR){
 				document.getElementById("progress").style.display = "block";
 				if(response != "0"){
@@ -353,12 +353,21 @@ function initLogin(){
 		 		document.getElementById("painelConfigFila").addEventListener("click",function(){
 		 			document.getElementById("configFila").style.display = "block";
 		 			document.getElementById("horarioFila").style.display = "none";
+		 			document.getElementById("configPosicao").style.display = "none";
 		 		});
 		 	}
 		 	if(document.getElementById("painelHorarioFila") != null){ 
 		 		document.getElementById("painelHorarioFila").addEventListener("click",function(){
 		 			document.getElementById("horarioFila").style.display = "block";
 		 			document.getElementById("configFila").style.display = "none";
+		 			document.getElementById("configPosicao").style.display = "none";
+		 		});
+		 	}
+		 	if(document.getElementById("painelConfigPosicao") != null){ 
+		 		document.getElementById("painelConfigPosicao").addEventListener("click",function(){
+		 			document.getElementById("horarioFila").style.display = "none";
+		 			document.getElementById("configFila").style.display = "none";
+		 			document.getElementById("configPosicao").style.display = "block";
 		 		});
 		 	}
 		 	if(document.getElementById("salvaHorario") != null){ 
@@ -397,38 +406,47 @@ function initLogin(){
 			 		document.getElementById("qtdeChamada").innerHTML = qtdeChamada;
 			 	}
 			 });
+			 $("#modalConfiguracao").modal();
+			 document.getElementById("closeConfiguracaoModal").addEventListener("click",function(){
+			 	$("#modalConfiguracao").modal('close');
+			 });
 		 	// controleFila();
 		 	// consultaConfiguracaoFila();
+		 	if(document.getElementById("posicao_posto1")){
+		 		Sortable.create(document.getElementById("posicao_posto1"), {animation: 150, group: "omega",dragClass: "sortable-drag",});
+		 		Sortable.create(document.getElementById("posicao_posto2"), {animation: 150, group: "omega",dragClass: "sortable-drag",});
+		 		Sortable.create(document.getElementById("posicao_posto3"), {animation: 150, group: "omega",dragClass: "sortable-drag", });
+		 	}
 		 	init();
 		 });
 
-	}
+}
 
-	function abrirConfiguracao(){
-		document.getElementById("configuracao").style.display = "block";
-		document.getElementById("cor_menu").value = config.cor_menu;
-		document.getElementById("cor_fundo").value = config.cor_fundo;
-		document.getElementById("cor_conteudo").value = config.cor_conteudo;
-		document.getElementById("cor_menu").addEventListener("change",function(){
-			document.getElementById("menu_painel").style.background = document.getElementById("cor_menu").value;
-		});
-		document.getElementById("cor_conteudo").addEventListener("change",function(){
-			document.getElementById("conteudo_painel").style.background = document.getElementById("cor_conteudo").value;
-		});
-		document.getElementById("cor_fundo").addEventListener("change",function(){
-			document.getElementById("container").style.background = document.getElementById("cor_fundo").value;
-			document.getElementsByTagName("body")[0].style.background = document.getElementById("cor_fundo").value;
-		});
-		document.getElementById("btnSalvaConfig").addEventListener("click",function(){
-			var file_data = document.getElementById("fileLogo").files[0];
-			var form_data = new FormData();
-			form_data.append('file', file_data);
-			form_data.append('cor_fundo',  document.getElementById("cor_fundo").value);
-			form_data.append('cor_conteudo', document.getElementById("cor_conteudo").value);
-			form_data.append('cor_menu', document.getElementById("cor_menu").value);
-			request = $.ajax({
-				type:"POST",
-				url:"php/salvaConfiguracao.php",
+function abrirConfiguracao(){
+	document.getElementById("configuracao").style.display = "block";
+	document.getElementById("cor_menu").value = config.cor_menu;
+	document.getElementById("cor_fundo").value = config.cor_fundo;
+	document.getElementById("cor_conteudo").value = config.cor_conteudo;
+	document.getElementById("cor_menu").addEventListener("change",function(){
+		document.getElementById("menu_painel").style.background = document.getElementById("cor_menu").value;
+	});
+	document.getElementById("cor_conteudo").addEventListener("change",function(){
+		document.getElementById("conteudo_painel").style.background = document.getElementById("cor_conteudo").value;
+	});
+	document.getElementById("cor_fundo").addEventListener("change",function(){
+		document.getElementById("container").style.background = document.getElementById("cor_fundo").value;
+		document.getElementsByTagName("body")[0].style.background = document.getElementById("cor_fundo").value;
+	});
+	document.getElementById("btnSalvaConfig").addEventListener("click",function(){
+		var file_data = document.getElementById("fileLogo").files[0];
+		var form_data = new FormData();
+		form_data.append('file', file_data);
+		form_data.append('cor_fundo',  document.getElementById("cor_fundo").value);
+		form_data.append('cor_conteudo', document.getElementById("cor_conteudo").value);
+		form_data.append('cor_menu', document.getElementById("cor_menu").value);
+		request = $.ajax({
+			type:"POST",
+			url:"php/salvaConfiguracao.php",
 								type: "POST",             // Type of request to be send, called as method
 								data: form_data, // Data sent to server, a set of key/value pairs (i.e. form fields and values)
 								contentType: false,       // The content type used when sending data to the server.
@@ -438,93 +456,93 @@ function initLogin(){
 									document.getElementById("configuracao").style.display = "none";
 								}
 							});
-		});
-		document.getElementById("cancelar").addEventListener("click",function(){
-			document.getElementById("configuracao").style.display = "none";
-		});
-		document.getElementById("fileLogo").addEventListener("change",function(){
-			var img;
-			var  input = document.getElementById("fileLogo");
-			console.log("teste");
-			if (input.files && input.files[0]) {
-				var reader = new FileReader();
-				reader.onload = function (e) {
-					img = new FormData(input);
-					document.getElementById("logo").src = ""+e.target.result;
-					document.getElementById("nome").focus();
-				}
-				reader.readAsDataURL(input.files[0]);
-			} 
-		});
-	}
-	function desativar(){
-		if(document.getElementById("configuracao") != null){
-			document.getElementById("configuracao").style.display = "none";
-		}
-		if(document.getElementById("container") != null){
-			document.getElementById("container").style.display = "none";
-		}
-	}
-	function controleFila(){
-		$.ajax({
-			type:"POST",
-			url:"php/listaControle.php",
-			type: "POST",              
-			success: function(data) {
-				var lista = JSON.parse(data);
-				mostraHorariosFila(lista);
+	});
+	document.getElementById("cancelar").addEventListener("click",function(){
+		document.getElementById("configuracao").style.display = "none";
+	});
+	document.getElementById("fileLogo").addEventListener("change",function(){
+		var img;
+		var  input = document.getElementById("fileLogo");
+		console.log("teste");
+		if (input.files && input.files[0]) {
+			var reader = new FileReader();
+			reader.onload = function (e) {
+				img = new FormData(input);
+				document.getElementById("logo").src = ""+e.target.result;
+				document.getElementById("nome").focus();
 			}
-		});
+			reader.readAsDataURL(input.files[0]);
+		} 
+	});
+}
+function desativar(){
+	if(document.getElementById("configuracao") != null){
+		document.getElementById("configuracao").style.display = "none";
 	}
-	function mostraHorariosFila(lista){
-		var controles = "";
-		for(var i = 0 ; i < lista.length; i++){
-			controles += '<tr>';
-			if(lista[i].tipofila == 0){
-				controles += '<td>Fila Principal</td>';
+	if(document.getElementById("container") != null){
+		document.getElementById("container").style.display = "none";
+	}
+}
+function controleFila(){
+	$.ajax({
+		type:"POST",
+		url:"php/listaControle.php",
+		type: "POST",              
+		success: function(data) {
+			var lista = JSON.parse(data);
+			mostraHorariosFila(lista);
+		}
+	});
+}
+function mostraHorariosFila(lista){
+	var controles = "";
+	for(var i = 0 ; i < lista.length; i++){
+		controles += '<tr>';
+		if(lista[i].tipofila == 0){
+			controles += '<td>Fila Principal</td>';
+		}else{
+			controles += '<td>Fila Alternativa</td>';
+		}
+		controles += '<td>'+lista[i].tempoInicial+'</td>';
+		controles += '<td>'+lista[i].tempoFinal+'</td>';
+		controles += '<td><a class="removeHorario" id="'+lista[i].idcontrole+'" href="#">X</a></td>';
+		controles += '</tr>';
+	}
+	document.getElementById("listaControle").innerHTML = controles;
+	$(".removeHorario").click(function(){
+		removeHorario(this.id);
+	});
+}
+
+function consultaConfiguracaoFila(){
+	$.ajax({
+		type:"POST",
+		url:"php/getConfiguracaoFila.php",
+		type: "POST",        
+		success: function(data) {
+			var config = JSON.parse(data);
+			if(config.tipo_fila == 0){
+				document.getElementById("fila1").checked = true;
 			}else{
-				controles += '<td>Fila Alternativa</td>';
+				document.getElementById("fila2").checked = true;
 			}
-			controles += '<td>'+lista[i].tempoInicial+'</td>';
-			controles += '<td>'+lista[i].tempoFinal+'</td>';
-			controles += '<td><a class="removeHorario" id="'+lista[i].idcontrole+'" href="#">X</a></td>';
-			controles += '</tr>';
+			document.getElementById("qtdeFila1").value = config.qtde_taxi_fila1;
+			document.getElementById("qtdeFila2").value = config.qtde_taxi_fila2;
+			document.getElementById("qtdemaxima").value = config.qtdemaxima;
 		}
-		document.getElementById("listaControle").innerHTML = controles;
-		$(".removeHorario").click(function(){
-			removeHorario(this.id);
-		});
-	}
+	});
+}
 
-	function consultaConfiguracaoFila(){
-		$.ajax({
-			type:"POST",
-			url:"php/getConfiguracaoFila.php",
-			type: "POST",        
-			success: function(data) {
-				var config = JSON.parse(data);
-				if(config.tipo_fila == 0){
-					document.getElementById("fila1").checked = true;
-				}else{
-					document.getElementById("fila2").checked = true;
-				}
-				document.getElementById("qtdeFila1").value = config.qtde_taxi_fila1;
-				document.getElementById("qtdeFila2").value = config.qtde_taxi_fila2;
-				document.getElementById("qtdemaxima").value = config.qtdemaxima;
-			}
-		});
-	}
-
-	function removeHorario(id){
-		$.ajax({
-			type:"POST",
-			url:"php/removeHorario.php",
-			type: "POST", 
-			data:{"id":id},             
-			success: function(data) {
-				var lista = JSON.parse(data);
-				mostraHorariosFila(lista);
-			}
-		})
-	}
+function removeHorario(id){
+	$.ajax({
+		type:"POST",
+		url:"php/removeHorario.php",
+		type: "POST", 
+		data:{"id":id},             
+		success: function(data) {
+			var lista = JSON.parse(data);
+			mostraHorariosFila(lista);
+		}
+	})
+}
 }

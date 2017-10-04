@@ -20,9 +20,12 @@
 	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
 	<script src="js/jquery-ui.js"></script>
 	<script src="materialize/js/materialize.min.js"></script>
+	<!-- Latest Sortable -->
+	<script src="//rubaxa.github.io/Sortable/Sortable.js"></script>
 	<!-- <script src="js/function.js"></script> -->
 	<script src="js/function.js" type="text/javascript"></script>
 	<script src="js/login.js" type="text/javascript"></script>
+
 </head>
 <body onload="initLogin()">
 	<!-- Login -->
@@ -88,6 +91,7 @@
 									<div class="col s12 m6">
 										<div class="col s12" style="padding: 10px" >
 											<div class="bloco_fila z-depth-2">
+												<a><i class="material-icons icons_list">info</i></a>
 												<h3 class="titulochamada">POSTO 1</h3>
 												<p style="text-align:center">Ultimo taxi chamado</p>
 												<h1 id="saida_posto1">-</h1>
@@ -103,6 +107,7 @@
 									<div class="col s12 m6">
 										<div class="col s12 " style="padding: 10px">
 											<div class="bloco_fila z-depth-2">
+												<a><i class="material-icons icons_list">info</i></a>
 												<h3 class="titulochamada">POSTO 2</h3>
 												<p style="text-align:center">Corrida Bônus</p>
 												<h1 id="saida_posto2">-</h1>
@@ -250,14 +255,128 @@
 	</div>
 	<!--  Modal de Configuração -->
 	<div id="modalConfiguracao" class="">
-		<div class="preloader-wrapper big active">
-			<div class="spinner-layer spinner-blue-only">
-				<div class="circle-clipper left">
-					<div class="circle"></div>
-				</div><div class="gap-patch">
-					<div class="circle"></div>
-				</div><div class="circle-clipper right">
-					<div class="circle"></div>
+		<div class="list_config">
+			
+			<div class="row">
+				<nav>
+					<div class="nav-wrapper" style=" text-transform: uppercase;">
+						<ul>
+							<li id="painelConfigFila"><a>Fila</a></li>
+							<li id="painelHorarioFila"><a>Horários</a></li>
+							<li id="painelConfigPosicao"><a>Posição</a></li>
+							<li id="closeConfiguracaoModal"><i class="material-icons">close</i></li>
+						</ul>
+					</div>
+				</nav>
+			</div>
+			<div class="row conteudoConfiguracao">
+				<div class="col s12">
+					<!-- Posicao -->
+					<div class="row"  id="configPosicao">
+						<div class="row">
+							<div class="col s12 subcontainer" id="multposicao">
+								<div> 
+									<ul class="ordemFila" id="posicao_posto1">
+									</ul>
+									<ul class="ordemFila" id="posicao_posto2">
+									</ul>
+									<ul class="ordemFila" id="posicao_posto3">
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col s4"></div>
+							<button class="col s4 btn" style="position: absolute;">Salva Ordem</button>
+							<div class="col s4"></div>
+						</div>
+					</div>
+					<!-- Configuração de fila -->
+					<div class="row" id="configFila">
+						<div class="row">
+							<div class="input-field col s5">
+								<input id="qtdeFila1" placeholder=" "  type="number" class="validate">
+								<label for="qtdeFila1" class="active">Quantidade Taxi Fila 1</label>
+							</div>
+							<div class="input-field col s1"></div>
+							<div class="input-field col s5">
+								<input id="qtdeFila2" placeholder=" " type="number" class="validate">
+								<label for="qtdeFila2" class="active">Quantidade Taxi Fila 2</label>
+							</div>
+						</div>
+						<div class="input-field col s11">
+							<input id="qtdemaxima" type="number" placeholder=" "  class="validate">
+							<label for="disabled" class="active">Quantidade Maxima de Taxi</label>
+						</div>
+						<div class="row">
+							<div class="input-field col s2">
+								<p>Presente</p><input id="corPresente" type="color">
+							</div>
+							<div class="input-field col s2">
+								<p>Ausente</p><input id="corAusente" type="color">
+							</div>
+							<div class="input-field col s2">
+								<p>Problema</p><input id="corProblema" type="color">
+							</div>
+							<div class="input-field col s2">
+								<p>Plantão</p><input id="corPlantao" type="color">
+							</div>
+							<div class="input-field col s2">
+								<p>Biqueira</p><input id="corBiqueira" type="color">
+							</div>
+						</div>
+						<div class="row" style="margin-top:10px;">
+							<div class="col l4"></div>
+							<button class="col s12 l4 btn" id="salvaConfiguracaoFila">Salva Alteracao</button>
+							<div class="col l4"></div>
+						</div>
+					</div>
+
+					<!-- Configuração de horario -->
+					<div class="col s12 l4" id="horarioFila">
+						<div class="row">
+							<div class="input-field col s3">
+								<input id="tempoInicial" type="time" class="validate">
+							</div>
+							<div class="input-field col s1">
+								<label>A</label>
+							</div>
+							<div class="input-field col s3">
+								<input id="tempoFinal" type="time" class="validate">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col 5">
+								<input name="opcaofila" type="radio" id="tipofila1" />
+								<label for="tipofila1">Fila Principal</label>
+							</div>
+							<div class="input-field col s1"></div>
+							<div class="col 5">
+								<input name="opcaofila" type="radio" id="tipofila2" />
+								<label for="tipofila2">Fila Alternativa</label>
+							</div>
+						</div>
+						<div class="row" style="margin-top:10px;">
+							<div class="col l4"></div>
+							<button class="col s12 l4 btn" id="salvaHorario">Salva</button>
+							<div class="col l4"></div>
+						</div>
+						<table>
+							<thead>
+								<tr>
+									<th>Tipo Fila</th>
+									<th>Horario Inicial</th>
+									<th>Horario Final</th>
+									<th><th>
+									</tr>
+								</thead>
+
+								<tbody id="listaControle">
+
+								</tbody>
+							</table>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

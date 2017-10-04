@@ -14,6 +14,24 @@ body{
 	url(font/MaterialIcons-Regular.woff) format('woff'),
 	url(font/MaterialIcons-Regular.ttf) format('truetype');
 }
+#posicao_posto1{
+	float: left;
+	width: 100%;
+	border: 1px solid #000;
+	background: #5ede7e;
+}
+#posicao_posto2{
+	float: left;
+	width: 100%;
+	border: 1px solid #000;
+	background: #ccde5e;
+}
+#posicao_posto3{
+	float: left;
+	width: 100%;
+	border: 1px solid #000;
+	background: #de5e5e;
+}
 #modalChamada{
 	width: 30%;
 	border-radius: 10px;
@@ -27,8 +45,8 @@ body{
 }
 .container_btn_float button{
 	font-size: 1.5em;
-    padding: 0px 10px !important;
-    margin: 15px 0px;
+	padding: 0px 10px !important;
+	margin: 15px 0px;
 }
 #qtdeChamada{
 	text-align: center;
@@ -80,20 +98,65 @@ body{
 
 }
 
-/*.titulochamada{
-	border: 1px solid;
-	margin: 0;
-	background-color: #5e69d4;
+#modalConfiguracao{
+	display: none;
+	position: absolute;
+	width: 95%;
+	right: 0;
+	left: 0;
+	top: 5px !important;
+	margin:auto;
+	background-color: #fff;
+	border:1px solid #ccc;
+}
+.conteudoConfiguracao{
+	height: 500px;
+}
+#modalConfiguracao .list_config{
+	background-color: #fff;
+}
+.sortable-chosen{
+	background-color: #fff !important;
+	color:#000 !important;
+	width: 70px !important;
+	padding: 20px !important;
+	margin: 0 !important;
+}
+#modalConfiguracao .list_config .ordemFila li{
+	cursor: pointer;
+	text-align: center;
 	color: #fff;
-	padding: 10px;
-}*/
+	width: 60px;
+	font-size: 1.5em;
+	margin: 5px;
+	float: left;
+	padding: 15px;
+	border: 1px solid #000;
+}
+#modalConfiguracao .list_config li a{
+	font-size: 1.5em;
+	color:#fff;
+}
+#modalConfiguracao .list_config li.active,
+#modalConfiguracao .list_config li a.active{
+	background-color: #1591bf;
+	color:#fff;
+}
+#closeConfiguracaoModal{
+	position: absolute;
+	right: 0;
+	background-color: #d14444;
+	color:#fff;
+	padding: 0px 20px;
+}
+
 #modalLoad{
 	display: none;
 	position: absolute;
-    right: 0;
-    left: 0;
-    text-align: center;
-    top: 30% !important;
+	right: 0;
+	left: 0;
+	text-align: center;
+	top: 30% !important;
 }
 .proximo li{
 	float: left;
@@ -213,7 +276,6 @@ p.problema_taxi{
 #conteudo_painel{
 	margin-top: 10px;
 	padding: 10px;
-	position: absolute;
 	height: auto;
 }
 .configuracao{
@@ -230,8 +292,9 @@ p.problema_taxi{
 	float: right;
 	color:#000;
 }
-#container,.painel,#configFila,#horarioFila{
+#container,.painel,#configFila,#horarioFila,#configPosicao{
 	display: none;
+	padding: 10px;
 }
 #listafila2{
 	margin:1px;
@@ -269,35 +332,43 @@ p.problema_taxi{
 }
 /* Largura da barra de rolagem */
 ::-webkit-scrollbar {
-    width: 10px;
-    display: none; 
+	width: 10px;
+	display: none; 
 
 }
 
 /* Fundo da barra de rolagem */
 ::-webkit-scrollbar-track-piece {
-    background-color: #05395b;
-    border-left: 1px solid #CCC
+	background-color: #05395b;
+	border-left: 1px solid #CCC
 }
 
 /* Cor do indicador de rolagem */
 ::-webkit-scrollbar-thumb:vertical,
 ::-webkit-scrollbar-thumb:horizontal {
-    background-color: #3490cc
+	background-color: #3490cc
 }
 
 /* Cor do indicador de rolagem - ao passar o mouse */
 ::-webkit-scrollbar-thumb:vertical:hover,
 ::-webkit-scrollbar-thumb:horizontal:hover {
-    background-color: #717171
+	background-color: #717171
+}
+.icons_list{
+	position: relative;
+	float: right;
+	right: 10px;
+	top: 10px;
+	font-size:2.5em;
+	color: #000;
 }
 .lista_taxi{
 	border-top: 1px solid;
-    overflow-x: scroll;
-    width: 100%;
-    padding: 10px;
-    background-color: #e1e2e6;
-    border-radius: 10px;	
+	overflow-x: scroll;
+	width: 100%;
+	padding: 10px;
+	background-color: #e1e2e6;
+	border-radius: 10px;	
 }
 .tamanhoMaximo{
 	width: 5000%;
@@ -315,11 +386,11 @@ p.problema_taxi{
 }
 .btn_modal{
 	padding: 20px;
-    background-color: #7874e1;
-    margin: 10px;
-    font-size: 2em;
-    border-radius: 10px;
-    color: #fff;
+	background-color: #7874e1;
+	margin: 10px;
+	font-size: 2em;
+	border-radius: 10px;
+	color: #fff;
 }
 .media{
 	margin-bottom: 70px;
@@ -355,4 +426,4 @@ p.problema_taxi{
 			width: 5%;
 			font-size: 0.75em;
 			}*/
-}
+		}
